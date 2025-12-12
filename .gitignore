@@ -1,4 +1,6 @@
 .venv
 .idea
+node_modules
+dist
 __pycache__
 database.db
