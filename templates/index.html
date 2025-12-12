@@ -7,14 +7,14 @@
     <title>School map</title>
 </head>
 <body>
-    <h1 class="text-2xl">School map</h1>
-    <button class="test-btn" id="openBtn">DEMO</button>
-    <div class="hidden fixed top-0 left-0 w-full h-full bg-gray-900/20" id="testModal">
-        <div class="absolute top-1/2 left-1/2 bg-gray-500 rounded-xl p-4">
-            <h1 class="text-xl font-bold">Адольф Штинус</h1>
-            <button class="test-btn" id="closeBtn">Close</button>
-        </div>
+<div class="container mx-auto">
+    <h2>School map</h2>
+
+    <div class="card">
+        <div class="slider"></div>
     </div>
-    <script src="{{ url_for('static', path='/scripts/main.js') }}"></script>
+</div>
+
+<script src="{{ url_for('static', path='/scripts/main.js') }}"></script>
 </body>
 </html>
