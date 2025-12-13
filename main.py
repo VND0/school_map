@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import select
 
-import setup_data
+import setup_data.script
 from database.database import create_db_and_tables, get_session
 from database.db_models import Object
 
@@ -42,7 +42,7 @@ async def geet_object_image(identifier: int):
     if not map_object:
         raise HTTPException(404, "Map object not found")
 
-    image = map_object.image_path
+    image = map_object.image
     return Response(
         content=image,
         media_type="application/octet-stream",
@@ -51,5 +51,5 @@ async def geet_object_image(identifier: int):
 
 if __name__ == "__main__":
     create_db_and_tables()
-    setup_data.setup()
+    setup_data.script.setup()
     uvicorn.run(app, host="localhost", port=8000)
