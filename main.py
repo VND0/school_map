@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 
+import setup_data
 from database.database import create_db_and_tables, get_session
 
 app = FastAPI()
@@ -20,4 +21,5 @@ async def index(request: Request):
 
 if __name__ == "__main__":
     create_db_and_tables()
+    setup_data.setup()
     uvicorn.run(app, host="localhost", port=8000)
