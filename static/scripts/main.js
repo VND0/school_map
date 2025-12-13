@@ -82,4 +82,4 @@ class Card {
 
 new SliderOfCard();
 const cardActions = new Card();
-cardActions.remove()
+// cardActions.remove()

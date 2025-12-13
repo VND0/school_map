@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Verdana, sans-serif;
 }
 
 .container {
@@ -31,8 +32,38 @@ h2 {
 .slider {
     background-color: white;
     height: 6px;
-    width: 100px;
+    width: 80px;
     margin: 10px auto 10px auto;
     border-radius: 3px;
     touch-action: none;
+}
+
+.card > h2 {
+    margin: 0 auto;
+}
+
+/*.card > img {*/
+/*    width: 100%;*/
+/*    height: 250px;*/
+/*}*/
+
+.card > .img-wrap {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.card > .img-wrap > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.card > .description {
+    margin: 0 10px;
+}
+
+* {
+    outline: 1px solid green;
 }
