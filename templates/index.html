@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url_for('static', path='/dist/output.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/src/styles.css') }}">
     <title>School map</title>
 </head>
 <body>
 <div class="container mx-auto">
     <h2>School map</h2>
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aperiam architecto consectetur debitis dolor
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aperiam architecto consectetur debitis dolor
         ducimus eligendi eveniet ex fugit maiores neque, nisi nobis perferendis perspiciatis placeat possimus, quas quis
         quod temporibus voluptate, voluptatem voluptates voluptatum. Amet dicta distinctio doloribus eligendi, est et,
         eum exercitationem expedita iure molestiae perspiciatis quibusdam quis tempore. Alias aperiam asperiores
@@ -26,7 +27,19 @@
         quaerat qui quia quis, quisquam quod rem similique tenetur vero. Adipisci, alias aliquam asperiores blanditiis
         corporis dignissimos distinctio dolor dolorem doloremque est eum excepturi fugit harum illum impedit ipsa,
         laborum laudantium magnam maiores molestiae molestias natus neque nesciunt omnis optio pariatur praesentium
-        quaerat qui reiciendis repellat repudiandae sit suscipit tempora ullam vel velit veritatis!</p>
+        quaerat qui reiciendis repellat repudiandae sit suscipit tempora ullam vel velit veritatis!
+    </p>
+
+    <div class="floor-buttons">
+        <input type="radio" name="floor" id="thirdFloor" value="3">
+        <label for="thirdFloor">3</label>
+
+        <input type="radio" name="floor" id="secondFloor" value="2">
+        <label for="secondFloor">2</label>
+
+        <input type="radio" name="floor" id="firstFloor" value="1" checked>
+        <label for="firstFloor">1</label>
+    </div>
 
     <div class="card">
         <div class="slider"></div>
