@@ -24,21 +24,22 @@ async def index(request: Request):
 @app.get("/object-data")
 async def get_object_data(identifier: int):
     session = next(sessions)
-    map_object: Object = session.query(select(Object).where(Object.id == identifier)).one_or_none()
+    map_object: Object = session.query(Object).filter(Object.id == identifier).one_or_none()
     if not map_object:
         raise HTTPException(404, "Map object not found")
 
     return {
         "title": map_object.title,
         "description": map_object.description,
-        "url_to_image": f"/object-image/{identifier}"
+        "urlToImage": f"/object-image/{identifier}"
     }
 
 
-@app.get("/object-image/identifier")
-async def geet_object_image(identifier: int):
+@app.get("/object-image/{identifier}")
+async def get_object_image(identifier: int):
+    print(identifier)
     session = next(sessions)
-    map_object: Object = session.query(select(Object).where(Object.id == identifier)).one_or_none()
+    map_object: Object = session.query(Object).filter(Object.id == identifier).one_or_none()
     if not map_object:
         raise HTTPException(404, "Map object not found")
 

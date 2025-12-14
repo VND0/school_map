@@ -62,6 +62,12 @@ class SliderOfCard {
 
 
 class Card {
+    constructor() {
+        this.title = card.querySelector("h2")
+        this.image = card.querySelector("img")
+        this.description = card.querySelector(".description")
+    }
+
     remove() {
         card.style.transform = 'translateY(100vh)';
         card.style.display = "none";
@@ -77,9 +83,43 @@ class Card {
             card.style.removeProperty("transition");
         }, 300);
     }
+
+    fillObjectData(objectData) {
+        this.title.textContent = objectData.title
+        this.description.innerHTML = objectData.description
+
+        const blob = new Blob([objectData.image])
+        this.image.src = URL.createObjectURL(blob)
+    }
+
+    clearCard() {
+        this.title.textContent = ""
+        this.description.textContent = ""
+        this.image.src = ""
+    }
 }
 
+const getObjectData = async function (id) {
+    let request = await fetch(`/object-data?identifier=${id}`)
+    const responseData = await request.json()
+    request = await fetch(responseData.urlToImage)
+    const imageBytes = await request.bytes()
+
+    return {
+        title: responseData.title,
+        description: responseData.description,
+        image: imageBytes,
+    }
+}
 
 new SliderOfCard();
 const cardActions = new Card();
-// cardActions.remove()
+cardActions.remove()
+
+getObjectData(-1).then((objectData) => {
+    cardActions.fillObjectData(objectData)
+    cardActions.reveal()
+
+    setTimeout(() => cardActions.clearCard(), 3000)
+})
+

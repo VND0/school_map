@@ -12,5 +12,6 @@ def create_db_and_tables():
 
 
 def get_session():
-    with Session() as session:
-        yield session
+    while True:
+        with Session() as session:
+            yield session

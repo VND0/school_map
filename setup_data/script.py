@@ -8,7 +8,7 @@ import json
 
 
 def find_image_path(prefix: str) -> str | None:
-    entries = os.listdir("images/")
+    entries = os.listdir("images")
     for entry in entries:
         if entry.startswith(prefix):
             return os.path.join("images", entry)
