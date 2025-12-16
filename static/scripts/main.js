@@ -99,17 +99,60 @@ class Card {
     }
 }
 
+class LocalStorageCaching {
+    uint8ToBase64(arr) {
+        let binaryString = ""
+        arr.forEach((byte) => {
+            binaryString += String.fromCharCode(byte)
+        })
+        return btoa(binaryString)
+    }
+
+    base64ToUint8(arr) {
+        const binaryDecoded = atob(arr)
+        const originalArray = new Uint8Array(binaryDecoded.length)
+        for (let i = 0; i < binaryDecoded.length; i++) {
+            originalArray[i] = binaryDecoded.charCodeAt(i)
+        }
+        return originalArray
+    }
+
+    getCachedObject(id) {
+        const stored = localStorage.getItem(`object.${id}`)
+        if (stored === null) {
+            return null
+        }
+        const data = JSON.parse(stored)
+        data.image = this.base64ToUint8(data.image)
+        return data
+    }
+
+    saveCachedObject(id, object) {
+        object.image = this.uint8ToBase64(object.image)
+        localStorage.setItem(`object.${id}`, JSON.stringify(object))
+    }
+}
+
+const lsCaching = new LocalStorageCaching()
+
 const getObjectData = async function (id) {
+    const cached = lsCaching.getCachedObject(id)
+    if (cached !== null) {
+        return cached
+    }
+
     let request = await fetch(`/object-data?identifier=${id}`)
     const responseData = await request.json()
     request = await fetch(responseData.urlToImage)
     const imageBytes = await request.bytes()
 
-    return {
+    const objectData = {
         title: responseData.title,
         description: responseData.description,
         image: imageBytes,
     }
+    lsCaching.saveCachedObject(id, structuredClone(objectData))
+    return objectData
 }
 
 new SliderOfCard();
@@ -120,6 +163,6 @@ getObjectData(-1).then((objectData) => {
     cardActions.fillObjectData(objectData)
     cardActions.reveal()
 
-    setTimeout(() => cardActions.clearCard(), 3000)
+    // setTimeout(() => cardActions.clearCard(), 3000)
 })
 
