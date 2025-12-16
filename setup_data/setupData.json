@@ -16,5 +16,5 @@
   "Кабинет 311": [[19], "cab311", "В кабинете есть лаборантская, в которой находятся необходимые для проведения лабораторных работ по химии материалы и оборудование. В эту лаборантскую ученикам лицея строго запрещено заходить."],
   "Кабинет 320": [[20], "cab320", "В соседней аудитории часто идут лекции, так что лучше не шуметь. Парты часто шатаются, один раз сгорел проектор.☠"],
   "Кабинет 336": [[21], "cab336", "В кабинете есть шкаф с моделями животных, растений, органоидов, клеток и т. п. Также есть аквариум с рыбами. Рыб строго запрещено кормить, этим занимаются отдельные люди."],
-  "Object": [[-1], "sticker", "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p><p>Commodi deserunt:</p><ul><li>dicta ipsum,</li><li>iste magnam maxime</li><li>minima nulla numquam</li></ul><strong>sunt veritatis, voluptas voluptatem! Accusamus assumenda consectetur, dolores inventoremodi pariatur sequi.</strong>"]
+  "Object (length up to 24)": [[-1], "sticker", "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p><p>Commodi deserunt:</p><ul><li>dicta ipsum,</li><li>iste magnam maxime</li><li>minima nulla numquam</li></ul><strong>sunt veritatis, voluptas voluptatem! Accusamus assumenda consectetur, dolores inventoremodi pariatur sequi.</strong>"]
 }
