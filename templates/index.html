@@ -4,36 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', path='/src/styles.css') }}">
-    <title>School map</title>
+    <title>SchoolMap</title>
 </head>
 <body>
-<div class="container mx-auto">
-    <h2>School map</h2>
-
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aperiam architecto consectetur debitis dolor
-        ducimus eligendi eveniet ex fugit maiores neque, nisi nobis perferendis perspiciatis placeat possimus, quas quis
-        quod temporibus voluptate, voluptatem voluptates voluptatum. Amet dicta distinctio doloribus eligendi, est et,
-        eum exercitationem expedita iure molestiae perspiciatis quibusdam quis tempore. Alias aperiam asperiores
-        aspernatur autem beatae cupiditate debitis delectus deleniti doloremque eaque earum enim eos error facilis fugit
-        hic illo in ipsa laborum magnam maiores mollitia necessitatibus numquam obcaecati, possimus quaerat reiciendis
-        reprehenderit saepe sit suscipit tempora temporibus veniam, voluptas. Aut iure laboriosam repellendus! Eveniet
-        excepturi labore rerum. Ea eveniet id tempora tempore, ut voluptates? Accusantium adipisci aspernatur enim esse
-        eum, facilis, fugiat provident quam quidem ratione recusandae reprehenderit tempore! A at consequatur corporis
-        harum in incidunt, itaque iure laboriosam mollitia nulla, praesentium quam recusandae saepe sed velit? A ab
-        aliquam assumenda consectetur cupiditate dolor dolorem enim expedita id impedit itaque iusto labore libero nam
-        nemo, nulla odit quia quis quod reprehenderit sapiente similique sunt tenetur veniam vitae. Adipisci aliquam
-        culpa dignissimos dolor dolorum earum eveniet, harum itaque iusto maxime, modi mollitia nemo nihil nisi quae
-        quaerat qui quia quis, quisquam quod rem similique tenetur vero. Adipisci, alias aliquam asperiores blanditiis
-        corporis dignissimos distinctio dolor dolorem doloremque est eum excepturi fugit harum illum impedit ipsa,
-        laborum laudantium magnam maiores molestiae molestias natus neque nesciunt omnis optio pariatur praesentium
-        quaerat qui reiciendis repellat repudiandae sit suscipit tempora ullam vel velit veritatis!
-    </p>
-
-    <div class="search-wrapper">
-        <input type="text" placeholder="Поиск объекта" id="searchInput">
-    </div>
-
+<div class="container">
     <div class="floor-buttons">
         <input type="radio" name="floor" id="thirdFloor" value="3">
         <label for="thirdFloor">3</label>
@@ -45,20 +19,125 @@
         <label for="firstFloor">1</label>
     </div>
 
-    <div class="card">
-        <div class="slider"></div>
+    <div class="search-wrapper">
+        <input type="text" placeholder="Поиск объекта" id="searchInput">
+    </div>
+
+    <div class="map-container">
+        <svg id="school-map" viewBox="0 0 800 1200" xmlns="http://www.w3.org/2000/svg">
+            <g id="floor-1" class="floor-layer">
+                <rect class="corridor" x="0" y="0" width="800" height="50" />
+                <rect class="corridor" x="0" y="50" width="50" height="1150" />
+                <rect class="corridor" x="750" y="50" width="50" height="1150" />
+                <rect class="corridor" x="50" y="1150" width="700" height="50" />
+                <rect class="corridor" x="100" y="100" width="600" height="50" />
+                <rect class="corridor" x="350" y="150" width="50" height="1000" />
+
+                <rect id="room-101" class="room" x="50" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
+                <text x="100" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#33">101</text>
+
+                <rect id="room-102" class="room" x="200" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
+                <text x="250" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">102</text>
+
+                <rect id="room-103" class="room" x="350" y="50" width="10" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
+                <text x="400" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">103</text>
+
+                <rect id="canteen" class="room" x="50" y="200" width="200" height="150" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                <text x="150" y="275" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Столовая</text>
+
+                <rect id="toilet-male-1" class="room" x="300" y="200" width="10" height="80" fill="#f5f5f5" stroke="#333" stroke-width="2"/>
+                <text x="350" y="240" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Муж. туалет</text>
+
+                <rect id="entrance" class="room" x="450" y="200" width="150" height="100" fill="#e8e8e8" stroke="#333" stroke-width="2"/>
+                <text x="525" y="250" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Вход (КПП)</text>
+
+                <rect id="wardrobe" class="room" x="50" y="400" width="200" height="100" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                <text x="150" y="450" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Гардероб</text>
+            </g>
+
+            <g id="floor-2" class="floor-layer" style="display: none;">
+                <rect class="corridor" x="0" y="0" width="800" height="50" />
+                <rect class="corridor" x="0" y="50" width="50" height="150" />
+                <rect class="corridor" x="750" y="50" width="50" height="1150" />
+                <rect class="corridor" x="50" y="1150" width="700" height="50" />
+                <rect class="corridor" x="100" y="100" width="600" height="50" />
+                <rect class="corridor" x="350" y="150" width="50" height="1000" />
+
+                <rect id="room-201" class="room" x="50" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
+                <text x="100" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">201</text>
+
+                <rect id="room-205" class="room" x="200" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
+                <text x="250" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#33">205</text>
+
+                <rect id="room-206" class="room" x="350" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
+                <text x="400" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">206</text>
+
+                <rect id="toilet-fem-2" class="room" x="500" y="50" width="100" height="80" fill="#f5f5f5" stroke="#333" stroke-width="2"/>
+                <text x="550" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Жен. туалет</text>
+
+                <rect id="sofas" class="room" x="50" y="200" width="200" height="100" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                <text x="150" y="250" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Диваны</text>
+
+                <rect id="room-226" class="room" x="300" y="200" width="150" height="150" fill="#e8e8e8" stroke="#333" stroke-width="2"/>
+                <text x="375" y="275" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">226</text>
+            </g>
+
+            <g id="floor-3" class="floor-layer" style="display: none;">
+                <!-- Коридоры -->
+                <rect class="corridor" x="0" y="0" width="800" height="50" />
+                <rect class="corridor" x="0" y="50" width="50" height="1150" />
+                <rect class="corridor" x="750" y="50" width="50" height="1150" />
+                <rect class="corridor" x="50" y="1150" width="700" height="50" />
+                <rect class="corridor" x="100" y="100" width="600" height="50" />
+                <rect class="corridor" x="350" y="150" width="50" height="1000" />
+
+                <rect id="room-301" class="room" x="50" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
+                <text x="100" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">301</text>
+
+                <rect id="room-308" class="room" x="200" y="50" width="10" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
+                <text x="250" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">308</text>
+
+                <rect id="room-311" class="room" x="350" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
+                <text x="400" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">311</text>
+
+                <rect id="room-320" class="room" x="500" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
+                <text x="550" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">320</text>
+
+                <rect id="toilet-fem-3" class="room" x="50" y="200" width="100" height="80" fill="#f5f5f5" stroke="#333" stroke-width="2"/>
+                <text x="100" y="240" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Жен. туалет</text>
+
+                <rect id="toilet-male-3" class="room" x="180" y="200" width="100" height="80" fill="#f5f5f5" stroke="#333" stroke-width="2"/>
+                <text x="230" y="240" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Муж. туалет</text>
+
+                <rect id="room-336" class="room" x="320" y="200" width="20" height="150" fill="#e8e8e8" stroke="#333" stroke-width="2"/>
+                <text x="420" y="275" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">36</text>
+            </g>
+
+            <g class="stairs">
+                <rect id="main-stairs" class="room" x="650" y="50" width="80" height="400" fill="#d0d0d0" stroke="#333" stroke-width="2"/>
+                <text x="690" y="250" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333" transform="rotate(-90 690,250)">Лестница</text>
+            </g>
+        </svg>
+    </div>
+
+    <div class="zoom-controls">
+        <button id="zoom-in" class="zoom-btn">+</button>
+        <button id="zoom-out" class="zoom-btn">-</button>
+    </div>
+
+    <div class="card" id="info-card">
+        <div class="slider" id="card-slider"></div>
         <div class="card-header">
-            <h2></h2>
-            <button class="close-btn">×</button>
+            <h2 id="card-title"></h2>
+            <button id="close-card" class="close-btn">×</button>
         </div>
         <div class="img-wrap">
-            <img src="" alt="Object picture">
+            <img id="card-image" src="" alt="Object picture">
         </div>
-        <div class="description">
+        <div class="description" id="card-description">
         </div>
     </div>
 </div>
-
 <script src="{{ url_for('static', path='/scripts/main.js') }}"></script>
 </body>
 </html>
