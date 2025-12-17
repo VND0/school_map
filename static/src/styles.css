@@ -138,11 +138,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: background-color 0.2s;
-}
-
-.close-btn:hover {
-    background-color: #f3f4f6;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .card > .img-wrap {

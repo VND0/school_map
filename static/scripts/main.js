@@ -291,23 +291,23 @@ const MapManager = {
 const DataManager = {
     // Функция для получения данных об объекте
     async getObjectData(id) {
-        const cached = lsCaching.getCachedObject(id)
+        const cached = lsCaching.getCachedObject(id);
         if (cached !== null) {
-            return cached
+            return cached;
         }
 
-        let request = await fetch(`/object-data?identifier=${id}`)
-        const responseData = await request.json()
-        request = await fetch(responseData.urlToImage)
-        const imageBytes = await request.bytes()
+        let request = await fetch(`/object-data?identifier=${id}`);
+        const responseData = await request.json();
+        request = await fetch(responseData.urlToImage);
+        const imageBytes = await request.bytes();
 
         const objectData = {
             title: responseData.title,
             description: responseData.description,
             image: imageBytes,
         }
-        lsCaching.saveCachedObject(id, structuredClone(objectData))
-        return objectData
+        lsCaching.saveCachedObject(id, structuredClone(objectData));
+        return objectData;
     }
 };
 
@@ -418,7 +418,9 @@ const AppInitializer = {
         // Обработчик закрытия карточки
         DOMElements.closeCardBtn.addEventListener('click', function() {
             DOMElements.card.style.transform = 'translateY(100vh)';
+            DOMElements.card.style.transition = 'transform 0.1s ease-in';
             setTimeout(() => {
+                DOMElements.card.style.transition = 'none';
                 DOMElements.card.style.display = 'none';
             }, 300);
         });
