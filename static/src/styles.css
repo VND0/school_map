@@ -3,7 +3,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Verdana, sans-serif;
-    /*outline: 1px solid green;*/
 }
 
 body {
@@ -287,8 +286,7 @@ text {
     user-select: none;
 }
 
-/* Адаптивность для мобильных устройств */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .container {
         width: 100vw;
         height: 100vh;
@@ -296,7 +294,9 @@ text {
         max-height: 100%;
         border-radius: 0;
     }
+}
 
+@media (max-width: 768px) {
     .card {
         width: 95%;
         margin: 3vh 2.5% 0 2.5%;
