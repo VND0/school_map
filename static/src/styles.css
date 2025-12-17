@@ -205,6 +205,10 @@ body {
     border-color: #2563eb;
 }
 
+.floor-searched {
+    border: 2px solid gray !important;
+}
+
 .search-wrapper {
     position: absolute;
     top: 10px;

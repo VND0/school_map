@@ -343,17 +343,28 @@ const SearchManager = {
         DOMElements.searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
 
-            // Сброс подсветки
             document.querySelectorAll('.room').forEach(room => {
                 room.style.fill = '';
             });
 
-            // Подсветка совпадений
+            DOMElements.floorButtons.forEach(button => {
+                button.nextElementSibling.classList.remove('floor-searched');
+            });
+
             if (searchTerm) {
                 document.querySelectorAll('.room').forEach(room => {
                     const roomText = room.nextElementSibling ? room.nextElementSibling.textContent.toLowerCase() : '';
                     if (roomText.includes(searchTerm)) {
-                        room.style.fill = '#ffff99'; // Желтый цвет для найденных элементов
+                        room.style.fill = '#ffff99';
+
+                        const floorId = room.parentNode.id;
+                        let floorBtn;
+                        switch (floorId) {
+                            case 'floor-1': floorBtn = DOMElements.floorButtons[0]; break;
+                            case 'floor-2': floorBtn = DOMElements.floorButtons[1]; break;
+                            case 'floor-3': floorBtn = DOMElements.floorButtons[2]; break;
+                        }
+                        floorBtn.nextElementSibling.classList.add('floor-searched');
                     }
                 });
             }
