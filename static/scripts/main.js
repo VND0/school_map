@@ -1,4 +1,3 @@
-// Компонент состояния приложения
 const AppState = {
     isPanning: false,
     isZooming: false,
@@ -17,7 +16,6 @@ const AppState = {
     }
 };
 
-// Компонент для работы с DOM элементами
 const DOMElements = {
     card: null,
     slider: null,
@@ -42,7 +40,6 @@ const DOMElements = {
     }
 };
 
-// Компонент слайдера карточки
 class SliderOfCard {
     constructor() {
         this.startY = 0;
@@ -101,7 +98,6 @@ class SliderOfCard {
     }
 }
 
-// Компонент карточки информации
 class Card {
     constructor() {
         this.title = DOMElements.card.querySelector("h2");
@@ -133,8 +129,7 @@ class Card {
             const blob = new Blob([objectData.image], {type: 'application/octet-stream'});
             this.image.src = URL.createObjectURL(blob);
         } else {
-            // Используем заглушку, если изображение отсутствует
-            this.image.src = 'static/img/search-icon.svg'; // Путь к заглушке
+            this.image.src = 'static/img/search-icon.svg';
         }
     }
 
@@ -145,7 +140,6 @@ class Card {
     }
 }
 
-// Компонент управления картой
 const MapManager = {
     // Получение координат события
     getEventPoint(evt) {
@@ -159,7 +153,7 @@ const MapManager = {
 
     // Начало панорамирования
     startPan(evt) {
-        if (evt.button !== 0) return; // Только левая кнопка мыши
+        if (evt.button !== 0) return;
 
         AppState.isPanning = true;
         const point = this.getEventPoint(evt);
@@ -172,7 +166,6 @@ const MapManager = {
         AppState.lastX = evt.clientX;
         AppState.lastY = evt.clientY;
 
-        // Меняем курсор
         DOMElements.schoolMap.style.cursor = 'grabbing';
     },
 
@@ -258,7 +251,6 @@ const MapManager = {
         AppState.currentTransform.y = Math.max(-maxY, Math.min(maxY, AppState.currentTransform.y));
     },
 
-    // Обновление трансформации карты
     updateTransform() {
         DOMElements.schoolMap.setAttribute("viewBox", [
             -AppState.currentTransform.x,
@@ -268,7 +260,6 @@ const MapManager = {
         ].join(" "));
     },
 
-    // Центрирование карты при загрузке
     centerMap() {
         const mapWidth = 800;
         const mapHeight = 1200;
@@ -277,9 +268,8 @@ const MapManager = {
 
         const scaleX = containerWidth / mapWidth;
         const scaleY = containerHeight / mapHeight;
-        AppState.currentTransform.scale = Math.min(scaleX, scaleY) * 0.9; // 90% от размера для отступов
+        AppState.currentTransform.scale = Math.min(scaleX, scaleY) * 0.9;
 
-        // Центрируем карту
         AppState.currentTransform.x = 0;
         AppState.currentTransform.y = 0;
 
@@ -287,9 +277,7 @@ const MapManager = {
     }
 };
 
-// Компонент для работы с данными
 const DataManager = {
-    // Функция для получения данных об объекте
     async getObjectData(id) {
         const cached = lsCaching.getCachedObject(id);
         if (cached !== null) {
@@ -311,20 +299,15 @@ const DataManager = {
     }
 };
 
-// Компонент управления этажами
 const FloorManager = {
-    // Функция переключения этажей
     switchFloor(floorNumber) {
-        // Скрыть все этажи
         document.querySelectorAll('.floor-layer').forEach(layer => {
             layer.style.display = 'none';
         });
 
-        // Показать выбранный этаж
         document.getElementById(`floor-${floorNumber}`).style.display = 'block';
     },
 
-    // Инициализация обработчиков переключения этажей
     initFloorHandlers() {
         DOMElements.floorButtons.forEach(button => {
             button.addEventListener('change', function() {
@@ -336,9 +319,7 @@ const FloorManager = {
     }
 };
 
-// Компонент управления поиском
 const SearchManager = {
-    // Инициализация обработчика поиска
     initSearchHandler() {
         DOMElements.searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
@@ -360,11 +341,13 @@ const SearchManager = {
                         const floorId = room.parentNode.id;
                         let floorBtn;
                         switch (floorId) {
-                            case 'floor-1': floorBtn = DOMElements.floorButtons[0]; break;
+                            case 'floor-1': floorBtn = DOMElements.floorButtons[2]; break;
                             case 'floor-2': floorBtn = DOMElements.floorButtons[1]; break;
-                            case 'floor-3': floorBtn = DOMElements.floorButtons[2]; break;
+                            case 'floor-3': floorBtn = DOMElements.floorButtons[0]; break;
                         }
-                        floorBtn.nextElementSibling.classList.add('floor-searched');
+                        if (floorBtn && !floorBtn.checked) {
+                            floorBtn.nextElementSibling.classList.add('floor-searched');
+                        }
                     }
                 });
             }
@@ -372,50 +355,39 @@ const SearchManager = {
     }
 };
 
-// Компонент управления зумом
 const ZoomManager = {
-    // Обработчики кнопок зума
     initZoomHandlers() {
         DOMElements.zoomInBtn.addEventListener('click', function() {
             AppState.currentTransform.scale *= 1.2;
-            AppState.currentTransform.scale = Math.min(AppState.currentTransform.scale, 3); // Ограничение максимального масштаба
+            AppState.currentTransform.scale = Math.min(AppState.currentTransform.scale, 3);
             MapManager.applyBounds();
             MapManager.updateTransform();
         });
 
         DOMElements.zoomOutBtn.addEventListener('click', function() {
             AppState.currentTransform.scale /= 1.2;
-            AppState.currentTransform.scale = Math.max(AppState.currentTransform.scale, 0.5); // Ограничение минимального масштаба
+            AppState.currentTransform.scale = Math.max(AppState.currentTransform.scale, 0.5);
             MapManager.applyBounds();
             MapManager.updateTransform();
         });
     }
 };
 
-// Компонент инициализации приложения
 const AppInitializer = {
-    // Инициализация всего приложения
     init() {
-        // Инициализация DOM элементов
         DOMElements.init();
 
-        // Инициализация состояния приложения
         AppState.init();
 
-        // Инициализация обработчиков событий
         this.initEventListeners();
 
-        // Инициализация компонентов
         this.initComponents();
 
-        // Центрирование карты
         MapManager.centerMap();
 
-        // Показываем первый этаж по умолчанию
         FloorManager.switchFloor(1);
     },
 
-    // Инициализация обработчиков событий
     initEventListeners() {
         // Обработчики панорамирования и масштабирования SVG
         DOMElements.schoolMap.addEventListener('mousedown', MapManager.startPan.bind(MapManager));
@@ -436,30 +408,24 @@ const AppInitializer = {
             }, 300);
         });
 
-        // Инициализация остальных обработчиков
         FloorManager.initFloorHandlers();
         SearchManager.initSearchHandler();
         ZoomManager.initZoomHandlers();
     },
 
-    // Инициализация компонентов
     initComponents() {
-        // Инициализация слайдера карточки
         new SliderOfCard();
 
-        // Инициализация карточки
         const cardActions = new Card();
         cardActions.remove();
 
-        // Обработчик клика помещениям на карте
         document.querySelectorAll('.room').forEach(room => {
             room.addEventListener('click', async function() {
                 const roomId = this.getAttribute('id');
 
-                // Преобразуем ID комнаты в числовой идентификатор для запроса
                 let identifier;
                 switch(roomId) {
-                    case 'room-101': identifier = 15; break; // Пример соответствия
+                    case 'room-101': identifier = 15; break;
                     case 'room-102': identifier = 16; break;
                     case 'room-103': identifier = 17; break;
                     case 'canteen': identifier = 1; break;
@@ -479,7 +445,7 @@ const AppInitializer = {
                     case 'toilet-fem-3': identifier = 12; break;
                     case 'toilet-male-3': identifier = 13; break;
                     case 'room-336': identifier = 21; break;
-                    case 'main-stairs': identifier = 4; break; // Используем первый ID из массива
+                    case 'main-stairs': identifier = 4; break;
                     default: identifier = -1; break;
                 }
 
@@ -489,10 +455,9 @@ const AppInitializer = {
                     cardActions.reveal();
                 } catch (error) {
                     console.error('Ошибка при получении данных объекте:', error);
-                    // Показываем заглушку
                     cardActions.title.textContent = "Информация недоступна";
                     cardActions.description.innerHTML = "К сожалению, информация об этом объекте временно недоступна.";
-                    cardActions.image.src = "static/img/search-icon.svg"; // Путь к заглушке
+                    cardActions.image.src = "static/img/search-icon.svg";
                     cardActions.reveal();
                 }
             });
@@ -500,7 +465,6 @@ const AppInitializer = {
     }
 };
 
-// Инициализация приложения при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     AppInitializer.init();
 });

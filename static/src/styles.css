@@ -206,7 +206,7 @@ body {
 }
 
 .floor-searched {
-    border: 2px solid gray !important;
+    background-color: #ffff99 !important;
 }
 
 .search-wrapper {
