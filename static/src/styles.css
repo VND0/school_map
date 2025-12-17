@@ -199,13 +199,9 @@ body {
 }
 
 .floor-buttons > input:checked + label {
-    background-color: #3b82f6;
+    background-color: #3b82f6 !important;
     color: white;
     border-color: #2563eb;
-}
-
-.floor-searched {
-    background-color: #ffff99 !important;
 }
 
 .search-wrapper {

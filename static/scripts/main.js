@@ -329,7 +329,7 @@ const SearchManager = {
             });
 
             DOMElements.floorButtons.forEach(button => {
-                button.nextElementSibling.classList.remove('floor-searched');
+                button.nextElementSibling.style.backgroundColor = 'white';
             });
 
             if (searchTerm) {
@@ -345,8 +345,8 @@ const SearchManager = {
                             case 'floor-2': floorBtn = DOMElements.floorButtons[1]; break;
                             case 'floor-3': floorBtn = DOMElements.floorButtons[0]; break;
                         }
-                        if (floorBtn && !floorBtn.checked) {
-                            floorBtn.nextElementSibling.classList.add('floor-searched');
+                        if (floorBtn) {
+                            floorBtn.nextElementSibling.style.backgroundColor = '#ffff99';
                         }
                     }
                 });
