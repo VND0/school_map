@@ -28,43 +28,18 @@ body {
 .map-container {
     width: 100%;
     height: 100%;
-    overflow: auto;
-    -ms-overflow-style: auto;
-    scrollbar-width: thin;
 }
 
-.map-container::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
-}
-
-.map-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-}
-
-.map-container::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 10px;
-}
-
-.map-container::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
-}
-
-#school-map {
+.map-container > svg {
     width: 100%;
     height: 100%;
-    cursor: grab;
     min-width: 800px;
     min-height: 1200px;
     background-color: #f9fafb;
     border: 1px solid #e5e7eb;
     user-select: none;
-}
-
-#school-map:active {
-    cursor: grabbing;
+    touch-action: none;
+    cursor: grab;
 }
 
 .room {
@@ -75,6 +50,10 @@ body {
 
 .room:hover {
     fill: #c0c0c0 !important;
+}
+
+.room + text {
+    user-select: none;
 }
 
 .corridor {
@@ -116,7 +95,7 @@ body {
     border-bottom: 1px solid #e5e7eb;
 }
 
-.card-header h2 {
+.card-header > h2 {
     margin: 0;
     padding: 0 10px;
     text-align: left;
@@ -251,7 +230,7 @@ body {
     z-index: 10;
 }
 
-.zoom-btn {
+.zoom-controls > button {
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -269,17 +248,13 @@ body {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.zoom-btn:hover {
+.zoom-controls > button:hover {
     background-color: #f9fafb;
     transform: scale(1.05);
 }
 
-.zoom-btn:active {
+.zoom-controls > button:active {
     transform: scale(0.95);
-}
-
-text {
-    user-select: none;
 }
 
 @media (max-width: 1024px) {
@@ -350,7 +325,7 @@ text {
         right: 10px;
     }
 
-    .zoom-btn {
+    .zoom-controls > button {
         width: 40px;
         height: 40px;
         font-size: 18px;

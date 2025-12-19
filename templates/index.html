@@ -9,14 +9,14 @@
 <body>
 <div class="container">
     <div class="floor-buttons">
-        <input type="radio" name="floor" id="thirdFloor" value="3">
-        <label for="thirdFloor">3</label>
+        <input type="radio" name="floor" id="thirdFloorBtn" value="3">
+        <label for="thirdFloorBtn">3</label>
 
-        <input type="radio" name="floor" id="secondFloor" value="2">
-        <label for="secondFloor">2</label>
+        <input type="radio" name="floor" id="secondFloorBtn" value="2">
+        <label for="secondFloorBtn">2</label>
 
-        <input type="radio" name="floor" id="firstFloor" value="1" checked>
-        <label for="firstFloor">1</label>
+        <input type="radio" name="floor" id="firstFloorBtn" value="1" checked>
+        <label for="firstFloorBtn">1</label>
     </div>
 
     <div class="search-wrapper">
@@ -24,7 +24,7 @@
     </div>
 
     <div class="map-container">
-        <svg id="school-map" viewBox="0 0 800 1200" xmlns="http://www.w3.org/2000/svg">
+        <svg id="schoolMap" viewBox="0 0 800 1200" xmlns="http://www.w3.org/2000/svg">
             <g id="floor-1" class="floor-layer">
                 <rect class="corridor" x="0" y="0" width="800" height="50" />
                 <rect class="corridor" x="0" y="50" width="50" height="1150" />
@@ -83,7 +83,6 @@
             </g>
 
             <g id="floor-3" class="floor-layer" style="display: none;">
-                <!-- Коридоры -->
                 <rect class="corridor" x="0" y="0" width="800" height="50" />
                 <rect class="corridor" x="0" y="50" width="50" height="1150" />
                 <rect class="corridor" x="750" y="50" width="50" height="1150" />
@@ -121,21 +120,20 @@
     </div>
 
     <div class="zoom-controls">
-        <button id="zoom-in" class="zoom-btn">+</button>
-        <button id="zoom-out" class="zoom-btn">-</button>
+        <button id="zoomInBtn">+</button>
+        <button id="zoomOutBtn">-</button>
     </div>
 
-    <div class="card" id="info-card">
-        <div class="slider" id="card-slider"></div>
+    <div class="card" style="display: none">
+        <div class="slider"></div>
         <div class="card-header">
-            <h2 id="card-title"></h2>
-            <button id="close-card" class="close-btn">×</button>
+            <h2></h2>
+            <button id="closeCardBtn" class="close-btn">×</button>
         </div>
         <div class="img-wrap">
-            <img id="card-image" src="" alt="Object picture">
+            <img src="" alt="Картинка объекта">
         </div>
-        <div class="description" id="card-description">
-        </div>
+        <div class="description"></div>
     </div>
 </div>
 <script src="{{ url_for('static', path='/scripts/main.js') }}"></script>

@@ -1,16 +1,14 @@
 const AppState = {
     isPanning: false,
-    isZooming: false,
+    showingCard: false,
     currentTransform: { x: 0, y: 0, scale: 1 },
-    startPoint: { x: 0, y: 0 },
     lastX: 0,
     lastY: 0,
 
     init() {
         this.isPanning = false;
-        this.isZooming = false;
+        this.showingCard = false;
         this.currentTransform = { x: 0, y: 0, scale: 1 };
-        this.startPoint = { x: 0, y: 0 };
         this.lastX = 0;
         this.lastY = 0;
     }
@@ -28,14 +26,14 @@ const DOMElements = {
     mapContainer: null,
 
     init() {
-        this.card = document.querySelector(".card");
-        this.slider = document.querySelector(".slider");
-        this.schoolMap = document.getElementById("school-map");
+        this.card = document.querySelector('.card');
+        this.slider = document.querySelector('.slider');
+        this.schoolMap = document.querySelector('#schoolMap');
         this.floorButtons = document.querySelectorAll('.floor-buttons input');
-        this.searchInput = document.getElementById('searchInput');
-        this.zoomInBtn = document.getElementById('zoom-in');
-        this.zoomOutBtn = document.getElementById('zoom-out');
-        this.closeCardBtn = document.getElementById('close-card');
+        this.searchInput = document.querySelector('#searchInput');
+        this.zoomInBtn = document.querySelector('#zoomInBtn');
+        this.zoomOutBtn = document.querySelector('#zoomOutBtn');
+        this.closeCardBtn = document.querySelector('#closeCardBtn');
         this.mapContainer = document.querySelector('.map-container');
     }
 };
@@ -76,7 +74,7 @@ class SliderOfCard {
         }
     }
 
-    endDrag(e) {
+    endDrag() {
         this.dragging = false;
 
         DOMElements.card.style.transition = 'transform 0.3s ease';
@@ -100,24 +98,24 @@ class SliderOfCard {
 
 class Card {
     constructor() {
-        this.title = DOMElements.card.querySelector("h2");
-        this.image = DOMElements.card.querySelector("img");
-        this.description = DOMElements.card.querySelector(".description");
+        this.title = DOMElements.card.querySelector('h2');
+        this.image = DOMElements.card.querySelector('img');
+        this.description = DOMElements.card.querySelector('.description');
     }
 
     remove() {
         DOMElements.card.style.transform = 'translateY(100vh)';
-        DOMElements.card.style.display = "none";
+        DOMElements.card.style.display = 'none';
     }
 
     reveal() {
-        DOMElements.card.style.removeProperty("display");
-        DOMElements.card.style.transform = "translateY(100vh)";
-        DOMElements.card.style.transition = "transform 0.3s ease";
+        DOMElements.card.style.removeProperty('display');
+        DOMElements.card.style.transform = 'translateY(100vh)';
+        DOMElements.card.style.transition = 'transform 0.3s ease-out';
         DOMElements.card.getBoundingClientRect();
-        DOMElements.card.style.transform = "translateY(0)";
+        DOMElements.card.style.transform = 'translateY(0)';
         setTimeout(() => {
-            DOMElements.card.style.removeProperty("transition");
+            DOMElements.card.style.removeProperty('transition');
         }, 300);
     }
 
@@ -125,7 +123,7 @@ class Card {
         this.title.textContent = objectData.title;
         this.description.innerHTML = objectData.description;
 
-        if(objectData.image && objectData.image.byteLength > 0) {
+        if (objectData.image && objectData.image.byteLength > 0) {
             const blob = new Blob([objectData.image], {type: 'application/octet-stream'});
             this.image.src = URL.createObjectURL(blob);
         } else {
@@ -134,97 +132,73 @@ class Card {
     }
 
     clearCard() {
-        this.title.textContent = "";
-        this.description.textContent = "";
-        this.image.src = "";
+        this.title.textContent = '';
+        this.description.textContent = '';
+        this.image.src = '';
     }
 }
 
 const MapManager = {
-    // Получение координат события
-    getEventPoint(evt) {
-        const CTM = DOMElements.schoolMap.getScreenCTM();
-        if (evt.touches) { evt = evt.touches[0]; }
-        return {
-            x: (evt.clientX - CTM.e) / CTM.a,
-            y: (evt.clientY - CTM.f) / CTM.d
-        };
-    },
+    startPan(e) {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
 
-    // Начало панорамирования
-    startPan(evt) {
-        if (evt.button !== 0) return;
+        e.target.setPointerCapture(e.pointerId);
 
         AppState.isPanning = true;
-        const point = this.getEventPoint(evt);
-        AppState.startPoint = {
-            x: point.x - AppState.currentTransform.x,
-            y: point.y - AppState.currentTransform.y
-        };
-
-        // Запоминаем начальные координаты для плавности
-        AppState.lastX = evt.clientX;
-        AppState.lastY = evt.clientY;
+        AppState.lastX = e.clientX;
+        AppState.lastY = e.clientY;
 
         DOMElements.schoolMap.style.cursor = 'grabbing';
     },
 
-    // Панорамирование
-    pan(evt) {
+    pan(e) {
         if (!AppState.isPanning) return;
 
-        evt.preventDefault();
+        e.preventDefault();
 
-        // Используем смещение мыши для плавного перемещения
-        const deltaX = evt.clientX - AppState.lastX;
-        const deltaY = evt.clientY - AppState.lastY;
+        const ctm = DOMElements.schoolMap.getScreenCTM();
 
-        // Исправление инверсии: теперь карта движется в том же направлении, что и мышь
-        AppState.currentTransform.x += deltaX / AppState.currentTransform.scale;
-        AppState.currentTransform.y += deltaY / AppState.currentTransform.scale;
+        const deltaX = (e.clientX - AppState.lastX) / ctm.a;
+        const deltaY = (e.clientY - AppState.lastY) / ctm.d;
 
-        // Обновляем последние координаты
-        AppState.lastX = evt.clientX;
-        AppState.lastY = evt.clientY;
+        AppState.currentTransform.x += deltaX;
+        AppState.currentTransform.y += deltaY;
 
-        // Применяем менее жесткие границы, позволяя перемещать карту с учетом интерфейса
-        this.applyBounds();
+        AppState.lastX = e.clientX;
+        AppState.lastY = e.clientY;
 
         this.updateTransform();
     },
 
-    // Завершение панорамирования
-    stopPan() {
+    stopPan(e) {
         AppState.isPanning = false;
+
+        if (e?.pointerId) {
+            e.target.releasePointerCapture(e.pointerId);
+        }
+
         DOMElements.schoolMap.style.cursor = 'grab';
     },
 
-    // Масштабирование
-    zoom(evt) {
-        evt.preventDefault();
+    zoom(e) {
+        e.preventDefault();
 
-        const delta = evt.deltaY < 0 ? 1.1 : 1/1.1;
-        const point = this.getEventPoint(evt);
+        const delta = e.deltaY < 0 ? 1.1 : 1/1.1;
 
-        // Масштабирование относительно точки под курсором
-        const mouseX = point.x;
-        const mouseY = point.y;
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
 
-        // Вычисляем новые координаты после масштабирования
         const newX = mouseX - delta * (mouseX - AppState.currentTransform.x);
         const newY = mouseY - delta * (mouseY - AppState.currentTransform.y);
 
-        // Обновляем масштаб и позицию
         AppState.currentTransform.x = newX;
         AppState.currentTransform.y = newY;
         AppState.currentTransform.scale *= delta;
 
-        // Ограничение масштаба
         AppState.currentTransform.scale = Math.min(Math.max(0.5, AppState.currentTransform.scale), 3);
 
-        // Применяем границы
-        this.applyBounds();
 
+        this.applyBounds();
         this.updateTransform();
     },
 
@@ -252,12 +226,12 @@ const MapManager = {
     },
 
     updateTransform() {
-        DOMElements.schoolMap.setAttribute("viewBox", [
+        DOMElements.schoolMap.setAttribute('viewBox', [
             -AppState.currentTransform.x,
             -AppState.currentTransform.y,
             800 / AppState.currentTransform.scale,
             1200 / AppState.currentTransform.scale
-        ].join(" "));
+        ].join(' '));
     },
 
     centerMap() {
@@ -305,7 +279,7 @@ const FloorManager = {
             layer.style.display = 'none';
         });
 
-        document.getElementById(`floor-${floorNumber}`).style.display = 'block';
+        document.querySelector(`#floor-${floorNumber}`).style.display = 'block';
     },
 
     initFloorHandlers() {
@@ -340,6 +314,7 @@ const SearchManager = {
 
                         const floorId = room.parentNode.id;
                         let floorBtn;
+
                         switch (floorId) {
                             case 'floor-1': floorBtn = DOMElements.floorButtons[2]; break;
                             case 'floor-2': floorBtn = DOMElements.floorButtons[1]; break;
@@ -382,18 +357,16 @@ const AppInitializer = {
         this.initEventListeners();
 
         this.initComponents();
-
-        MapManager.centerMap();
+        // MapManager.centerMap();
 
         FloorManager.switchFloor(1);
     },
 
     initEventListeners() {
         // Обработчики панорамирования и масштабирования SVG
-        DOMElements.schoolMap.addEventListener('mousedown', MapManager.startPan.bind(MapManager));
-        DOMElements.schoolMap.addEventListener('mousemove', MapManager.pan.bind(MapManager));
-        DOMElements.schoolMap.addEventListener('mouseup', MapManager.stopPan.bind(MapManager));
-        DOMElements.schoolMap.addEventListener('mouseleave', MapManager.stopPan.bind(MapManager));
+        DOMElements.schoolMap.addEventListener('pointerdown', MapManager.startPan.bind(MapManager));
+        DOMElements.schoolMap.addEventListener('pointermove', MapManager.pan.bind(MapManager));
+        DOMElements.schoolMap.addEventListener('pointerup', MapManager.stopPan.bind(MapManager));
 
         // Для масштабирования колесом мыши
         DOMElements.schoolMap.addEventListener('wheel', MapManager.zoom.bind(MapManager), { passive: false });
@@ -401,7 +374,7 @@ const AppInitializer = {
         // Обработчик закрытия карточки
         DOMElements.closeCardBtn.addEventListener('click', function() {
             DOMElements.card.style.transform = 'translateY(100vh)';
-            DOMElements.card.style.transition = 'transform 0.1s ease-in';
+            DOMElements.card.style.transition = 'transform 0.25s ease-in';
             setTimeout(() => {
                 DOMElements.card.style.transition = 'none';
                 DOMElements.card.style.display = 'none';
@@ -455,9 +428,9 @@ const AppInitializer = {
                     cardActions.reveal();
                 } catch (error) {
                     console.error('Ошибка при получении данных объекте:', error);
-                    cardActions.title.textContent = "Информация недоступна";
-                    cardActions.description.innerHTML = "К сожалению, информация об этом объекте временно недоступна.";
-                    cardActions.image.src = "static/img/search-icon.svg";
+                    cardActions.title.textContent = 'Информация недоступна';
+                    cardActions.description.innerHTML = 'К сожалению, информация об этом объекте временно недоступна.';
+                    cardActions.image.src = 'static/img/search-icon.svg';
                     cardActions.reveal();
                 }
             });
@@ -471,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 class LocalStorageCaching {
     uint8ToBase64(arr) {
-        let binaryString = ""
+        let binaryString = ''
         arr.forEach((byte) => {
             binaryString += String.fromCharCode(byte)
         })
