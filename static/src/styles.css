@@ -405,3 +405,13 @@ body {
     border-color: #2563eb;
     background-color: #3b82f6;
 }
+
+.has-error {
+    width: 350px;
+    font-size: 14px;
+    color: #8b1e1e;
+    background-color: #fdecec;
+    border: 2px solid #e57373;
+    border-radius: 10px;
+    padding: 10px;
+}

@@ -490,6 +490,8 @@ class QrReader {
         this.openBtn.addEventListener("click", this.openWidget)
         this.cameraBtn.addEventListener('click', this.startCameraScan)
         this.closeBtn.addEventListener("click", this.closeWidget)
+
+        this.errorDiv = this.container.querySelector("#qr-error")
     }
 
     onScanSuccess = (decodedText) => {
@@ -508,18 +510,15 @@ class QrReader {
     }
 
     startCameraScan = async () => {
-        this.scanning = true;
         let devices
-
         try {
             devices = await Html5Qrcode.getCameras()
             if (!devices || devices.length === 0) {
-                alert("Камеры не найдены")
+                this.showError("Камеры не найдены")
                 return
             }
-        } catch {
-            this.scanning = false
-            alert("Камера не работает при незащищенном соединении")
+        } catch (error) {
+            this.showError(error)
             return
         }
 
@@ -535,6 +534,7 @@ class QrReader {
             this.onScanSuccess
         )
 
+        this.scanning = true;
         this.cameraBtn.textContent = "Остановить"
         this.cameraBtn.removeEventListener("click", this.startCameraScan)
         this.cameraBtn.addEventListener("click", this.stopCameraScan)
@@ -551,6 +551,15 @@ class QrReader {
             await this.stopCameraScan()
         }
         this.container.style.display = "none"
+    }
+
+    showError = async (error) => {
+        this.errorDiv.textContent = error
+        this.errorDiv.classList.add("has-error")
+        setTimeout(() => {
+            this.errorDiv.textContent = ""
+            this.errorDiv.classList.remove("has-error")
+        }, 5000)
     }
 }
 
