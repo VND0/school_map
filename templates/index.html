@@ -135,7 +135,38 @@
         </div>
         <div class="description"></div>
     </div>
+
+    <div id="qr-button">
+        <svg fill="#000000" viewBox="0 0 24 24" id="qr-code-scan-2" data-name="Line Color"
+             xmlns="http://www.w3.org/2000/svg" class="icon line-color">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+                <path id="secondary" d="M11,11H7V7h4Zm6-4H15V9h2ZM13,17h4V13H13ZM7,17H9V15H7Z"
+                      style="fill: none; stroke: #3b82f6; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                <path id="primary" d="M8,3H4A1,1,0,0,0,3,4V8"
+                      style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                <path id="primary-2" data-name="primary" d="M21,8V4a1,1,0,0,0-1-1H16"
+                      style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                <path id="primary-3" data-name="primary" d="M3,16v4a1,1,0,0,0,1,1H8"
+                      style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                <path id="primary-4" data-name="primary" d="M16,21h4a1,1,0,0,0,1-1V16"
+                      style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+            </g>
+        </svg>
+    </div>
+
+    <div class="scanner-container">
+        <div class="container-wrapper">
+            <button class="close-btn">×</button>
+            <h3>Отсканируйте qr-код у объекта, чтобы найти его на карте.</h3>
+            <div id="qr-reader"></div>
+            <button id="camera-btn" class="deactivated">Сканировать</button>
+        </div>
+    </div>
 </div>
+
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 <script src="{{ url_for('static', path='/scripts/main.js') }}"></script>
 </body>
 </html>

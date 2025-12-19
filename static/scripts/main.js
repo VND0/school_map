@@ -1,14 +1,14 @@
 const AppState = {
     isPanning: false,
     showingCard: false,
-    currentTransform: { x: 0, y: 0, scale: 1 },
+    currentTransform: {x: 0, y: 0, scale: 1},
     lastX: 0,
     lastY: 0,
 
     init() {
         this.isPanning = false;
         this.showingCard = false;
-        this.currentTransform = { x: 0, y: 0, scale: 1 };
+        this.currentTransform = {x: 0, y: 0, scale: 1};
         this.lastX = 0;
         this.lastY = 0;
     }
@@ -183,7 +183,7 @@ const MapManager = {
     zoom(e) {
         e.preventDefault();
 
-        const delta = e.deltaY < 0 ? 1.1 : 1/1.1;
+        const delta = e.deltaY < 0 ? 1.1 : 1 / 1.1;
 
         const mouseX = e.clientX;
         const mouseY = e.clientY;
@@ -284,7 +284,7 @@ const FloorManager = {
 
     initFloorHandlers() {
         DOMElements.floorButtons.forEach(button => {
-            button.addEventListener('change', function() {
+            button.addEventListener('change', function () {
                 if (this.checked) {
                     FloorManager.switchFloor(this.value);
                 }
@@ -295,7 +295,7 @@ const FloorManager = {
 
 const SearchManager = {
     initSearchHandler() {
-        DOMElements.searchInput.addEventListener('input', function() {
+        DOMElements.searchInput.addEventListener('input', function () {
             const searchTerm = this.value.toLowerCase();
 
             document.querySelectorAll('.room').forEach(room => {
@@ -332,14 +332,14 @@ const SearchManager = {
 
 const ZoomManager = {
     initZoomHandlers() {
-        DOMElements.zoomInBtn.addEventListener('click', function() {
+        DOMElements.zoomInBtn.addEventListener('click', function () {
             AppState.currentTransform.scale *= 1.2;
             AppState.currentTransform.scale = Math.min(AppState.currentTransform.scale, 3);
             MapManager.applyBounds();
             MapManager.updateTransform();
         });
 
-        DOMElements.zoomOutBtn.addEventListener('click', function() {
+        DOMElements.zoomOutBtn.addEventListener('click', function () {
             AppState.currentTransform.scale /= 1.2;
             AppState.currentTransform.scale = Math.max(AppState.currentTransform.scale, 0.5);
             MapManager.applyBounds();
@@ -369,10 +369,10 @@ const AppInitializer = {
         DOMElements.schoolMap.addEventListener('pointerup', MapManager.stopPan.bind(MapManager));
 
         // Для масштабирования колесом мыши
-        DOMElements.schoolMap.addEventListener('wheel', MapManager.zoom.bind(MapManager), { passive: false });
+        DOMElements.schoolMap.addEventListener('wheel', MapManager.zoom.bind(MapManager), {passive: false});
 
         // Обработчик закрытия карточки
-        DOMElements.closeCardBtn.addEventListener('click', function() {
+        DOMElements.closeCardBtn.addEventListener('click', function () {
             DOMElements.card.style.transform = 'translateY(100vh)';
             DOMElements.card.style.transition = 'transform 0.25s ease-in';
             setTimeout(() => {
@@ -393,7 +393,7 @@ const AppInitializer = {
         cardActions.remove();
 
         document.querySelectorAll('.room').forEach(room => {
-            room.addEventListener('click', async function() {
+            room.addEventListener('click', async function () {
                 const roomId = this.getAttribute('id');
 
                 let identifier;
@@ -476,4 +476,83 @@ class LocalStorageCaching {
     }
 }
 
+class QrReader {
+    constructor() {
+        this.html5QrCode = new Html5Qrcode('qr-reader')
+        this.scanning = false
+
+        this.container = document.querySelector(".scanner-container")
+        this.cameraBtn = this.container.querySelector('#camera-btn')
+
+        this.openBtn = document.querySelector("#qr-button")
+        this.closeBtn = this.container.querySelector(".close-btn")
+
+        this.openBtn.addEventListener("click", this.openWidget)
+        this.cameraBtn.addEventListener('click', this.startCameraScan)
+        this.closeBtn.addEventListener("click", this.closeWidget)
+    }
+
+    onScanSuccess = (decodedText) => {
+        this.stopCameraScan()
+        alert(decodedText)
+    }
+
+    stopCameraScan = async () => {
+        await this.html5QrCode.stop()
+        this.scanning = false
+        this.cameraBtn.textContent = 'Сканировать'
+        this.cameraBtn.removeEventListener('click', this.stopCameraScan)
+        this.cameraBtn.addEventListener('click', this.startCameraScan)
+        this.cameraBtn.classList.remove("activated")
+        this.cameraBtn.classList.add("deactivated")
+    }
+
+    startCameraScan = async () => {
+        this.scanning = true;
+        let devices
+
+        try {
+            devices = await Html5Qrcode.getCameras()
+            if (!devices || devices.length === 0) {
+                alert("Камеры не найдены")
+                return
+            }
+        } catch {
+            this.scanning = false
+            alert("Камера не работает при незащищенном соединении")
+            return
+        }
+
+        const backCamera = devices.find(d => /back|rear|environment/i.test(d.label)) || devices[0]
+
+        await this.html5QrCode.start(
+            {deviceId: {exact: backCamera.id}},
+            {
+                fps: 10,
+                qrbox: {width: 250, height: 250},
+                aspectRatio: 1.0
+            },
+            this.onScanSuccess
+        )
+
+        this.cameraBtn.textContent = "Остановить"
+        this.cameraBtn.removeEventListener("click", this.startCameraScan)
+        this.cameraBtn.addEventListener("click", this.stopCameraScan)
+        this.cameraBtn.classList.remove("deactivated")
+        this.cameraBtn.classList.add("activated")
+    }
+
+    openWidget = async () => {
+        this.container.style.display = "block"
+    }
+
+    closeWidget = async () => {
+        if (this.scanning) {
+            await this.stopCameraScan()
+        }
+        this.container.style.display = "none"
+    }
+}
+
 const lsCaching = new LocalStorageCaching()
+const qrReader = new QrReader()
