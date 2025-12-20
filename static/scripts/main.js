@@ -503,9 +503,36 @@ class QrReader {
         this.errorDiv = this.container.querySelector("#qr-error")
     }
 
-    onScanSuccess = (decodedText) => {
-        this.stopCameraScan()
-        alert(decodedText)
+    onScanSuccess = async (decodedText) => {
+        await this.stopCameraScan()
+
+        const mapObject = document.querySelector("#schoolMap")
+        mapObject.childNodes.forEach((node) => {
+            node.childNodes.forEach(async (obj) => {
+                if (obj.id === decodedText) {
+                    const floorId = node.id
+                    let floorNumber;
+                    if (floorId === "floor-1") {
+                        floorNumber = 1
+                    } else if (floorId === "floor-2") {
+                        floorNumber = 2
+                    } else if (floorId === "floor-3") {
+                        floorNumber = 3
+                    }
+                    if (floorNumber !== undefined) {
+                        document.querySelector(`.floor-buttons > input[value="${floorNumber}"]`).click()
+                        obj.dispatchEvent(new MouseEvent('click', {
+                            view: window,
+                            bubbles: true,
+                            cancelable: true
+                        }))
+                        await this.closeWidget()
+                    }
+                }
+            })
+        })
+
+        this.showError(`Объекта с id ${decodedText} не существует`)
     }
 
     stopCameraScan = async () => {
