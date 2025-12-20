@@ -4,6 +4,9 @@ const AppState = {
     currentTransform: {x: 0, y: 0, scale: 1},
     lastX: 0,
     lastY: 0,
+    lastTime: 0,
+    velocityX: 0,
+    velocityY: 0,
 
     init() {
         this.isPanning = false;
@@ -11,6 +14,9 @@ const AppState = {
         this.currentTransform = {x: 0, y: 0, scale: 1};
         this.lastX = 0;
         this.lastY = 0;
+        this.lastTime = 0;
+        this.velocityX = 0;
+        this.velocityY = 0;
     }
 };
 
@@ -130,12 +136,6 @@ class Card {
             this.image.src = 'static/img/search-icon.svg';
         }
     }
-
-    clearCard() {
-        this.title.textContent = '';
-        this.description.textContent = '';
-        this.image.src = '';
-    }
 }
 
 const MapManager = {
@@ -147,6 +147,8 @@ const MapManager = {
         AppState.isPanning = true;
         AppState.lastX = e.clientX;
         AppState.lastY = e.clientY;
+        AppState.lastTime = performance.now();
+        AppState.velocityX = AppState.velocityY = 0;
 
         DOMElements.schoolMap.style.cursor = 'grabbing';
     },
@@ -156,16 +158,36 @@ const MapManager = {
 
         e.preventDefault();
 
+        const MAX_SPEED = 1.5;
+        const ALPHA = 0.2;
+
+        const scaleFactor = 1 / AppState.currentTransform.scale;
+        const currTime = performance.now();
+
         const ctm = DOMElements.schoolMap.getScreenCTM();
 
         const deltaX = (e.clientX - AppState.lastX) / ctm.a;
         const deltaY = (e.clientY - AppState.lastY) / ctm.d;
+        const deltaT = Math.max(16, currTime - AppState.lastTime);
+
+        const vx = deltaX / deltaT * scaleFactor;
+        const vy = deltaY / deltaT * scaleFactor;
 
         AppState.currentTransform.x += deltaX;
         AppState.currentTransform.y += deltaY;
 
+        AppState.velocityX = Math.max(
+            -MAX_SPEED,
+            Math.min(MAX_SPEED, AppState.velocityX * (1 - ALPHA) + vx * ALPHA)
+        );
+        AppState.velocityY = Math.max(
+            -MAX_SPEED,
+            Math.min(MAX_SPEED, AppState.velocityY * (1 - ALPHA) + vy * ALPHA)
+        );
+
         AppState.lastX = e.clientX;
         AppState.lastY = e.clientY;
+        AppState.lastTime = currTime;
 
         this.updateTransform();
     },
@@ -178,6 +200,21 @@ const MapManager = {
         }
 
         DOMElements.schoolMap.style.cursor = 'grab';
+        requestAnimationFrame(this.inertiaStep.bind(this));
+    },
+
+    inertiaStep() {
+        AppState.velocityX *= 0.965;
+        AppState.velocityY *= 0.965;
+
+        AppState.currentTransform.x += AppState.velocityX * 16;
+        AppState.currentTransform.y += AppState.velocityY * 16;
+
+        this.updateTransform();
+
+        if ((Math.abs(AppState.velocityX) > 0.01 || Math.abs(AppState.velocityY) > 0.01) && !AppState.isPanning) {
+            requestAnimationFrame(this.inertiaStep.bind(this));
+        }
     },
 
     zoom(e) {
@@ -197,30 +234,22 @@ const MapManager = {
 
         AppState.currentTransform.scale = Math.min(Math.max(0.5, AppState.currentTransform.scale), 3);
 
-
         this.applyBounds();
         this.updateTransform();
     },
 
-    // Применение менее жестких границ перемещения
     applyBounds() {
-        // Убираем жесткие ограничения на перемещение, чтобы можно было сдвигать карту до краев,
-        // включая области под панелью поиска и другими элементами интерфейса
-        // Оставляем минимальные ограничения, чтобы карта не уходила полностью за пределы видимости
         const mapWidth = 800;
         const mapHeight = 1200;
         const containerWidth = DOMElements.mapContainer.clientWidth;
         const containerHeight = DOMElements.mapContainer.clientHeight;
 
-        // Рассчитываем минимальные границы, чтобы карта не исчезала полностью
-        const minVisibleWidth = containerWidth * 0.1; // Минимум 10% карты должно быть видно по ширине
-        const minVisibleHeight = containerHeight * 0.1; // Минимум 10% карты должно быть видно по высоте
+        const minVisibleWidth = containerWidth * 0.1;
+        const minVisibleHeight = containerHeight * 0.1;
 
-        // Максимальные значения с учетом масштаба и минимального видимого размера
         const maxX = (mapWidth * AppState.currentTransform.scale - minVisibleWidth) / 2;
         const maxY = (mapHeight * AppState.currentTransform.scale - minVisibleHeight) / 2;
 
-        // Ограничиваем перемещение, но позволяя большую свободу
         AppState.currentTransform.x = Math.max(-maxX, Math.min(maxX, AppState.currentTransform.x));
         AppState.currentTransform.y = Math.max(-maxY, Math.min(maxY, AppState.currentTransform.y));
     },
@@ -232,22 +261,6 @@ const MapManager = {
             800 / AppState.currentTransform.scale,
             1200 / AppState.currentTransform.scale
         ].join(' '));
-    },
-
-    centerMap() {
-        const mapWidth = 800;
-        const mapHeight = 1200;
-        const containerWidth = DOMElements.mapContainer.clientWidth;
-        const containerHeight = DOMElements.mapContainer.clientHeight;
-
-        const scaleX = containerWidth / mapWidth;
-        const scaleY = containerHeight / mapHeight;
-        AppState.currentTransform.scale = Math.min(scaleX, scaleY) * 0.9;
-
-        AppState.currentTransform.x = 0;
-        AppState.currentTransform.y = 0;
-
-        this.updateTransform();
     }
 };
 
@@ -357,21 +370,17 @@ const AppInitializer = {
         this.initEventListeners();
 
         this.initComponents();
-        // MapManager.centerMap();
 
         FloorManager.switchFloor(1);
     },
 
     initEventListeners() {
-        // Обработчики панорамирования и масштабирования SVG
         DOMElements.schoolMap.addEventListener('pointerdown', MapManager.startPan.bind(MapManager));
         DOMElements.schoolMap.addEventListener('pointermove', MapManager.pan.bind(MapManager));
         DOMElements.schoolMap.addEventListener('pointerup', MapManager.stopPan.bind(MapManager));
 
-        // Для масштабирования колесом мыши
         DOMElements.schoolMap.addEventListener('wheel', MapManager.zoom.bind(MapManager), {passive: false});
 
-        // Обработчик закрытия карточки
         DOMElements.closeCardBtn.addEventListener('click', function () {
             DOMElements.card.style.transform = 'translateY(100vh)';
             DOMElements.card.style.transition = 'transform 0.25s ease-in';

@@ -65,7 +65,7 @@ body {
 .card {
     position: absolute;
     width: 70%;
-    height: 50vh;
+    height: 40vh;
     background-color: white;
     bottom: 0;
     left: 0;
@@ -175,6 +175,8 @@ body {
     font-weight: 600;
     transition: background-color 0.25s ease, color 0.25s ease;
     user-select: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .floor-buttons > input:checked + label {
@@ -342,6 +344,8 @@ body {
     border-radius: 8px;
     border: 1px solid #d1d5db;
     padding: 5px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .scanner-container {
