@@ -43,17 +43,25 @@ body {
 }
 
 .room {
+    fill: #d0d0d0;
+    stroke: #333;
+    stroke-width: 2;
     cursor: pointer;
     transition: fill 0.2s ease;
     stroke-linejoin: round;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .room:hover {
-    fill: #c0c0c0 !important;
+    fill: #c0c0c0;
 }
 
 .room + text {
+    fill: #333;
+    text-anchor: middle;
+    dominant-baseline: middle;
     user-select: none;
+    pointer-events: none;
 }
 
 .corridor {
@@ -65,7 +73,7 @@ body {
 .card {
     position: absolute;
     width: 70%;
-    height: 40vh;
+    height: 50vh;
     background-color: white;
     bottom: 0;
     left: 0;
@@ -273,7 +281,6 @@ body {
     .card {
         width: 95%;
         margin: 3vh 2.5% 0 2.5%;
-        height: 50vh;
     }
 
     .card > .img-wrap {
