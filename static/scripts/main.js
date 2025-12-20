@@ -200,15 +200,18 @@ const MapManager = {
         }
 
         DOMElements.schoolMap.style.cursor = 'grab';
-        requestAnimationFrame(this.inertiaStep.bind(this));
+
+        if (Math.abs(AppState.velocityX) > 0.6 || Math.abs(AppState.velocityY) > 0.6) {
+            requestAnimationFrame(this.inertiaStep.bind(this));
+        }
     },
 
     inertiaStep() {
-        AppState.velocityX *= 0.965;
-        AppState.velocityY *= 0.965;
+        AppState.velocityX *= 0.95;
+        AppState.velocityY *= 0.95;
 
-        AppState.currentTransform.x += AppState.velocityX * 16;
-        AppState.currentTransform.y += AppState.velocityY * 16;
+        AppState.currentTransform.x += AppState.velocityX * 8;
+        AppState.currentTransform.y += AppState.velocityY * 8;
 
         this.updateTransform();
 
@@ -407,27 +410,23 @@ const AppInitializer = {
 
                 let identifier;
                 switch(roomId) {
-                    case 'room-101': identifier = 15; break;
-                    case 'room-102': identifier = 16; break;
-                    case 'room-103': identifier = 17; break;
                     case 'canteen': identifier = 1; break;
-                    case 'toilet-male-1': identifier = 10; break;
-                    case 'entrance': identifier = 3; break;
-                    case 'wardrobe': identifier = 14; break;
-                    case 'room-201': identifier = 15; break;
-                    case 'room-205': identifier = 16; break;
-                    case 'room-206': identifier = 17; break;
-                    case 'toilet-fem-2': identifier = 11; break;
                     case 'sofas': identifier = 2; break;
-                    case 'room-226': identifier = 15; break;
-                    case 'room-301': identifier = 15; break;
-                    case 'room-308': identifier = 18; break;
-                    case 'room-311': identifier = 19; break;
-                    case 'room-320': identifier = 20; break;
-                    case 'toilet-fem-3': identifier = 12; break;
-                    case 'toilet-male-3': identifier = 13; break;
-                    case 'room-336': identifier = 21; break;
+                    case 'entrance': identifier = 3; break;
                     case 'main-stairs': identifier = 4; break;
+                    case 'secondary-stairs': identifier = 5; break;
+                    case 'toilet-male-1': identifier = 6; break;
+                    case 'toilet-fem-2': identifier = 7; break;
+                    case 'toilet-fem-3': identifier = 8; break;
+                    case 'toilet-male-3': identifier = 9; break;
+                    case 'wardrobe': identifier = 10; break;
+                    case 'room-226': identifier = 11; break;
+                    case 'room-205': identifier = 12; break;
+                    case 'room-206': identifier = 13; break;
+                    case 'room-308': identifier = 14; break;
+                    case 'room-311': identifier = 15; break;
+                    case 'room-320': identifier = 16; break;
+                    case 'room-336': identifier = 17; break;
                     default: identifier = -1; break;
                 }
 

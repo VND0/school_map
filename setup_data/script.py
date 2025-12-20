@@ -25,7 +25,7 @@ def setup():
     session = next(get_session())
 
     for name, data in objects.items():
-        identifiers, image_path_prefix, description = data
+        identifier, image_path_prefix, description = data
 
         file_path = find_image_path(image_path_prefix)
         file_content = None
@@ -35,9 +35,8 @@ def setup():
             with open(file_path, "rb") as f:
                 file_content = f.read()
 
-        for identifier in identifiers:
-            new_object = Object(id=identifier, title=name, description=description, image=file_content)
-            session.add(new_object)
+        new_object = Object(id=identifier, title=name, description=description, image=file_content)
+        session.add(new_object)
 
     try:
         session.commit()
