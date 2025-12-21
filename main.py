@@ -17,7 +17,11 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    return templates.TemplateResponse(request=request, name="index.html")
+    return templates.TemplateResponse(
+        request=request, name="index.html",
+        context={"url_for_css": request.app.url_path_for('static', path='/styles/styles.css'),
+                 "url_for_js": request.app.url_path_for('static', path='/scripts/main.js')}
+    )
 
 
 @app.get("/object-data")
@@ -51,4 +55,6 @@ async def get_object_image(identifier: int):
 if __name__ == "__main__":
     create_db_and_tables()
     setup_data.script.setup()
-    uvicorn.run(app, host="localhost", port=8000)
+    # Да не меняй ты на локалхост. Просто напиши локалхост в браузере, и заработает.
+    # А 0.0.0.0 обеспечивает хост на все интерфейсы
+    uvicorn.run(app, host="0.0.0.0", port=8000)

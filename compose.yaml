@@ -1,0 +1,18 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - database:/usr/src/app/database
+    networks:
+      - network
+    restart: always
+
+networks:
+  network:
+    driver: bridge
+volumes:
+  database:
