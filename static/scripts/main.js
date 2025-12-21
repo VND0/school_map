@@ -307,8 +307,7 @@ const FloorManager = {
         if (floorNumber !== '1') {
             mainStairs.setAttribute('x', '650');
             mainStairsText.setAttribute('x', '680');
-        }
-        else {
+        } else {
             mainStairs.setAttribute('x', '730');
             mainStairsText.setAttribute('x', '760');
         }
@@ -470,6 +469,11 @@ const AppInitializer = {
                 }
             });
         });
+
+        const imgPreview = new ImagePreview()
+        cardActions.image.addEventListener("click", (evt) => {
+            imgPreview.show(evt.target.src)
+        })
     }
 };
 
@@ -622,6 +626,25 @@ class QrReader {
             this.errorDiv.textContent = ""
             this.errorDiv.classList.remove("has-error")
         }, 5000)
+    }
+}
+
+class ImagePreview {
+    constructor() {
+        this.widget = document.querySelector(".object-picture")
+        this.closeBtn = this.widget.querySelector(".close-btn")
+        this.image = this.widget.querySelector("img")
+
+        this.closeBtn.addEventListener("click", this.hide)
+    }
+
+    show = (imgSrc) => {
+        this.image.src = imgSrc
+        this.widget.style.display = "flex"
+    }
+
+    hide = () => {
+        this.widget.style.display = "none"
     }
 }
 
