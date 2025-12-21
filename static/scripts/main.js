@@ -30,6 +30,7 @@ const DOMElements = {
     zoomOutBtn: null,
     closeCardBtn: null,
     mapContainer: null,
+    selectedRoom: null,
 
     init() {
         this.card = document.querySelector('.card');
@@ -41,6 +42,7 @@ const DOMElements = {
         this.zoomOutBtn = document.querySelector('#zoomOutBtn');
         this.closeCardBtn = document.querySelector('#closeCardBtn');
         this.mapContainer = document.querySelector('.map-container');
+        this.selectedRoom = null;
     }
 };
 
@@ -86,6 +88,8 @@ class SliderOfCard {
         DOMElements.card.style.transition = 'transform 0.3s ease';
 
         if (this.currentY > 200) {
+            DOMElements.selectedRoom.classList.remove('room-selected');
+            DOMElements.selectedRoom = null;
             DOMElements.card.style.transform = 'translateY(100vh)';
             setTimeout(() => {
                 DOMElements.card.style.display = 'none';
@@ -201,7 +205,7 @@ const MapManager = {
 
         DOMElements.schoolMap.style.cursor = 'grab';
 
-        if (Math.abs(AppState.velocityX) > 0.6 || Math.abs(AppState.velocityY) > 0.6) {
+        if (Math.abs(AppState.velocityX) > 0.4 || Math.abs(AppState.velocityY) > 0.4) {
             requestAnimationFrame(this.inertiaStep.bind(this));
         }
     },
@@ -296,6 +300,18 @@ const FloorManager = {
         });
 
         document.querySelector(`#floor-${floorNumber}`).style.display = 'block';
+
+        const mainStairs = document.querySelector('#main-stairs');
+        const mainStairsText = mainStairs.nextElementSibling;
+
+        if (floorNumber !== '1') {
+            mainStairs.setAttribute('x', '650');
+            mainStairsText.setAttribute('x', '680');
+        }
+        else {
+            mainStairs.setAttribute('x', '730');
+            mainStairsText.setAttribute('x', '760');
+        }
     },
 
     initFloorHandlers() {
@@ -374,7 +390,7 @@ const AppInitializer = {
 
         this.initComponents();
 
-        FloorManager.switchFloor(1);
+        FloorManager.switchFloor('1');
     },
 
     initEventListeners() {
@@ -385,6 +401,9 @@ const AppInitializer = {
         DOMElements.schoolMap.addEventListener('wheel', MapManager.zoom.bind(MapManager), {passive: false});
 
         DOMElements.closeCardBtn.addEventListener('click', function () {
+            DOMElements.selectedRoom.classList.remove('room-selected');
+            DOMElements.selectedRoom = null;
+
             DOMElements.card.style.transform = 'translateY(100vh)';
             DOMElements.card.style.transition = 'transform 0.25s ease-in';
             setTimeout(() => {
@@ -416,8 +435,8 @@ const AppInitializer = {
                     case 'main-stairs': identifier = 4; break;
                     case 'secondary-stairs': identifier = 5; break;
                     case 'toilet-male-1': identifier = 6; break;
-                    case 'toilet-fem-2': identifier = 7; break;
-                    case 'toilet-fem-3': identifier = 8; break;
+                    case 'toilet-female-2': identifier = 7; break;
+                    case 'toilet-female-3': identifier = 8; break;
                     case 'toilet-male-3': identifier = 9; break;
                     case 'wardrobe': identifier = 10; break;
                     case 'room-226': identifier = 11; break;
@@ -432,6 +451,10 @@ const AppInitializer = {
 
                 try {
                     const objectData = await DataManager.getObjectData(identifier);
+
+                    DOMElements.selectedRoom = document.querySelector(`#${roomId}`);
+                    DOMElements.selectedRoom.classList.add('room-selected');
+
                     cardActions.fillObjectData(objectData);
                     cardActions.reveal();
                 } catch (error) {
@@ -512,11 +535,11 @@ class QrReader {
                     const floorId = node.id
                     let floorNumber;
                     if (floorId === "floor-1") {
-                        floorNumber = 1
+                        floorNumber = '1'
                     } else if (floorId === "floor-2") {
-                        floorNumber = 2
+                        floorNumber = '2'
                     } else if (floorId === "floor-3") {
-                        floorNumber = 3
+                        floorNumber = '3'
                     }
                     if (floorNumber !== undefined) {
                         document.querySelector(`.floor-buttons > input[value="${floorNumber}"]`).click()

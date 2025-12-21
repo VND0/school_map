@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for_css }}">
-{#    <link rel="stylesheet" href="{{ url_for('static', path='/src/styles.css') }}">#}
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles/styles.css') }}">
     <title>SchoolMap</title>
 </head>
 <body>
@@ -27,89 +27,95 @@
     <div class="map-container">
         <svg id="schoolMap" viewBox="0 0 800 1200" xmlns="http://www.w3.org/2000/svg">
             <g id="floor-1" class="floor-layer">
-                <rect class="corridor" x="0" y="0" width="210" height="660"></rect>
-                <rect class="corridor" x="0" y="0" width="840" height="180"></rect>
-                <rect class="corridor" x="630" y="0" width="210" height="825"></rect>
+                <!-- Коридоры -->
+                <rect class="corridor" x="0" y="0" width="220" height="830"></rect>
+                <rect class="corridor" x="640" y="0" width="220" height="745"></rect>
+                <rect class="corridor" x="219" y="0" width="422" height="190"></rect>
+                <rect class="corridor" x="580" y="320" width="50" height="150" transform="rotate(-30 620 320)"></rect>
 
-                <rect id="canteen" class="room" x="135" y="255" width="75" height="240"></rect>
-                <text x="172.5" y="375" font-size="12">Столовая</text>
+                <!-- Двери -->
+                <rect class="door" x="140" y="80" width="10" height="48"></rect>
+                <rect class="door" x="140" y="132" width="10" height="48"></rect>
 
-                <rect id="toilet-male-1" class="room" x="630" y="180" width="90" height="70"></rect>
-                <text x="675" y="217.5" font-size="12">Муж. туалет</text>
+                <rect class="door" x="730" y="180" width="29" height="10"></rect>
+                <rect class="door" x="761" y="180" width="29" height="10"></rect>
 
-                <rect id="entrance" class="room" x="630" y="250" width="90" height="70"></rect>
-                <text x="675" y="287.5" font-size="12">КПП</text>
+                <rect class="door" x="730" y="320" width="29" height="10"></rect>
+                <rect class="door" x="761" y="320" width="29" height="10"></rect>
 
-                <rect id="sofas" class="room" x="630" y="585" width="75" height="75"></rect>
-                <text x="667.5" y="622.5" font-size="12">Диваны</text>
+                <rect class="door" x="615" y="390" width="40" height="10" transform="rotate(240 615 390)"></rect>
+                <rect class="door" x="626" y="390" width="30" height="10" transform="rotate(60 626 390)"></rect>
 
-                <rect id="wardrobe" class="room" x="555" y="540" width="75" height="120"></rect>
-                <text x="592.5" y="600" font-size="12">Раздевалка</text>
+                <!-- Стены коридора со стороны столовой -->
+                <rect class="wall" x="0" y="0" width="80" height="830"></rect>
+                <rect class="wall" x="79" y="0" width="62" height="30"></rect>
+                <rect class="wall" x="140" y="189" width="80" height="117"></rect>
+                <rect class="wall" x="210" y="305" width="10" height="50"></rect>
+                <rect class="wall" x="140" y="354" width="80" height="476"></rect>
+                <rect class="wall" x="0" y="705.5" width="360" height="125"></rect>
+
+                <!-- Стены горизонтального коридора -->
+                <rect class="wall" x="140" y="0" width="720" height="80"></rect>
+                <rect class="wall" x="140" y="180" width="590" height="10"></rect>
+                <rect class="wall" x="830" y="79" width="30" height="102"></rect>
+
+                <!-- Стены коридора со стороны КПП -->
+                <rect class="wall" x="640" y="189" width="90" height="16"></rect>
+                <rect class="wall" x="640" y="204" width="10" height="32"></rect>
+                <rect class="wall" x="640" y="235" width="90" height="85"></rect>
+                <rect class="wall" x="640" y="319" width="20" height="11"></rect>
+                <rect class="wall" x="680" y="319" width="50" height="11"></rect>
+                <rect class="wall" x="515" y="350" width="121" height="40" rx="20" ry="20" transform="rotate(-30 520 290)"></rect>
+                <rect class="wall" x="790" y="180" width="70" height="650"></rect>
+                <rect class="wall" x="599" y="650" width="192" height="95"></rect>
+                <rect class="wall" x="510" y="650" width="91" height="180"></rect>
+                <rect class="wall" x="760" y="744" width="31" height="61"></rect>
+
+                <!-- Стены гардероба -->
+                <circle class="wall" r="40" cx="630" cy="455"></circle>
+                <rect class="wall" x="630" y="415" width="40" height="65"></rect>
+                <rect class="wall" x="590" y="455" width="10" height="250"></rect>
+                <rect class="wall" x="660" y="515" width="10" height="190"></rect>
+
+                <!-- Объекты 1-ого этажа -->
+                <rect id="canteen" class="room" x="150" y="250" width="60" height="240"></rect>
+                <text x="180" y="370" font-size="11" transform="rotate(-90 180 370)">Столовая</text>
+
+                <rect id="toilet-male-1" class="room" x="650" y="190" width="70" height="60"></rect>
+                <text x="685" y="220" font-size="11">Туалет</text>
+
+                <rect id="entrance" class="room" x="650" y="260" width="70" height="60"></rect>
+                <text x="685" y="290" font-size="11">КПП</text>
+
+                <rect id="sofas" class="room" x="670" y="590" width="60" height="60"></rect>
+                <text x="700" y="620" font-size="11">Диваны</text>
+
+                <rect id="wardrobe" class="room" x="600" y="460" width="60" height="190"></rect>
+                <text x="630" y="555" font-size="11" transform="rotate(-90 630 555)">Гардероб</text>
             </g>
 
             <g id="floor-2" class="floor-layer" style="display: none;">
-                <rect class="corridor" x="0" y="0" width="800" height="50" />
-                <rect class="corridor" x="0" y="50" width="50" height="150" />
-                <rect class="corridor" x="750" y="50" width="50" height="1150" />
-                <rect class="corridor" x="50" y="1150" width="700" height="50" />
-                <rect class="corridor" x="100" y="100" width="600" height="50" />
-                <rect class="corridor" x="350" y="150" width="50" height="1000" />
-
-                <rect id="room-201" class="room" x="50" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
-                <text x="100" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">201</text>
-
-                <rect id="room-205" class="room" x="200" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
-                <text x="250" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#33">205</text>
-
-                <rect id="room-206" class="room" x="350" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
-                <text x="400" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">206</text>
-
-                <rect id="toilet-fem-2" class="room" x="500" y="50" width="100" height="80" fill="#f5f5f5" stroke="#333" stroke-width="2"/>
-                <text x="550" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Жен. туалет</text>
-
-                <rect id="sofas" class="room" x="50" y="200" width="200" height="100" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                <text x="150" y="250" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Диваны</text>
-
-                <rect id="room-226" class="room" x="300" y="200" width="150" height="150" fill="#e8e8e8" stroke="#333" stroke-width="2"/>
-                <text x="375" y="275" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">226</text>
+                <!-- Коридоры -->
+                <rect class="corridor" x="0" y="0" width="220" height="830"></rect>
+                <rect class="corridor" x="640" y="0" width="220" height="830"></rect>
+                <rect class="corridor" x="219" y="0" width="422" height="190"></rect>
+                <rect class="corridor" x="219" y="640" width="422" height="190"></rect>
             </g>
 
             <g id="floor-3" class="floor-layer" style="display: none;">
-                <rect class="corridor" x="0" y="0" width="800" height="50" />
-                <rect class="corridor" x="0" y="50" width="50" height="1150" />
-                <rect class="corridor" x="750" y="50" width="50" height="1150" />
-                <rect class="corridor" x="50" y="1150" width="700" height="50" />
-                <rect class="corridor" x="100" y="100" width="600" height="50" />
-                <rect class="corridor" x="350" y="150" width="50" height="1000" />
-
-                <rect id="room-301" class="room" x="50" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
-                <text x="100" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">301</text>
-
-                <rect id="room-308" class="room" x="200" y="50" width="10" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
-                <text x="250" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">308</text>
-
-                <rect id="room-311" class="room" x="350" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
-                <text x="400" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">311</text>
-
-                <rect id="room-320" class="room" x="500" y="50" width="100" height="80" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
-                <text x="550" y="95" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">320</text>
-
-                <rect id="toilet-fem-3" class="room" x="50" y="200" width="100" height="80" fill="#f5f5f5" stroke="#333" stroke-width="2"/>
-                <text x="100" y="240" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Жен. туалет</text>
-
-                <rect id="toilet-male-3" class="room" x="180" y="200" width="100" height="80" fill="#f5f5f5" stroke="#333" stroke-width="2"/>
-                <text x="230" y="240" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">Муж. туалет</text>
-
-                <rect id="room-336" class="room" x="320" y="200" width="20" height="150" fill="#e8e8e8" stroke="#333" stroke-width="2"/>
-                <text x="420" y="275" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#333">36</text>
+                <!-- Коридоры -->
+                <rect class="corridor" x="0" y="0" width="220" height="830"></rect>
+                <rect class="corridor" x="640" y="0" width="220" height="830"></rect>
+                <rect class="corridor" x="219" y="0" width="422" height="190"></rect>
+                <rect class="corridor" x="219" y="640" width="422" height="190"></rect>
             </g>
 
             <g class="stairs">
-                <rect id="main-stairs" class="room" x="710" y="585" width="75" height="75">Лестница</rect>
-                <text x="747.5" y="622.5" font-size="12">Лестница</text>
+                <rect id="main-stairs" class="room" x="730" y="590" width="60" height="60">Лестница</rect>
+                <text x="760" y="620" font-size="11">Лестница</text>
 
-                <rect id="secondary-stairs" class="room" x="135" y="180" width="75" height="75"></rect>
-                <text x="172.5" y="217.5" font-size="12">Лестница</text>
+                <rect id="secondary-stairs" class="room" x="150" y="180" width="60" height="60"></rect>
+                <text x="180" y="210" font-size="11">Лестница</text>
             </g>
         </svg>
     </div>
