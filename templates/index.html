@@ -34,8 +34,8 @@
                 <rect class="corridor" x="580" y="320" width="50" height="150" transform="rotate(-30 620 320)"></rect>
 
                 <!-- Двери -->
-                <rect class="door" x="140" y="80" width="10" height="48"></rect>
-                <rect class="door" x="140" y="132" width="10" height="48"></rect>
+                <rect class="door" x="140" y="119" width="10" height="30"></rect>
+                <rect class="door" x="140" y="151" width="10" height="29"></rect>
 
                 <rect class="door" x="730" y="180" width="29" height="10"></rect>
                 <rect class="door" x="761" y="180" width="29" height="10"></rect>
@@ -55,7 +55,7 @@
                 <rect class="wall" x="0" y="705.5" width="360" height="125"></rect>
 
                 <!-- Стены горизонтального коридора -->
-                <rect class="wall" x="140" y="0" width="720" height="80"></rect>
+                <rect class="wall" x="140" y="0" width="720" height="120"></rect>
                 <rect class="wall" x="140" y="180" width="590" height="10"></rect>
                 <rect class="wall" x="830" y="79" width="30" height="102"></rect>
 
@@ -96,10 +96,79 @@
 
             <g id="floor-2" class="floor-layer" style="display: none;">
                 <!-- Коридоры -->
-                <rect class="corridor" x="0" y="0" width="220" height="830"></rect>
-                <rect class="corridor" x="640" y="0" width="220" height="830"></rect>
+                <rect class="corridor" x="0" y="0" width="220" height="720"></rect>
+                <rect class="corridor" x="640" y="0" width="220" height="720"></rect>
                 <rect class="corridor" x="219" y="0" width="422" height="190"></rect>
-                <rect class="corridor" x="219" y="640" width="422" height="190"></rect>
+                <rect class="corridor" x="219" y="640" width="422" height="80"></rect>
+
+                <!-- Двери -->
+                <rect class="door" x="140" y="119" width="10" height="30"></rect>
+                <rect class="door" x="140" y="151" width="10" height="29"></rect>
+
+                <rect class="door" x="720" y="180" width="29" height="10"></rect>
+                <rect class="door" x="751" y="180" width="29" height="10"></rect>
+
+                <rect class="door" x="710" y="650" width="10" height="29"></rect>
+                <rect class="door" x="710" y="681" width="10" height="30"></rect>
+
+                <rect class="door" x="80" y="640" width="29" height="10"></rect>
+                <rect class="door" x="111" y="640" width="29" height="10"></rect>
+
+                <!-- Стены со стороны кабинетов (левая часть) -->
+                <rect class="wall" x="0" y="0" width="80" height="170"></rect>
+                <rect class="wall" x="0" y="169" width="10" height="62"></rect>
+                <rect class="wall" x="70" y="169" width="10" height="10"></rect>
+                <rect class="wall" x="70" y="195" width="10" height="36"></rect>
+                <rect class="wall" x="0" y="230" width="80" height="10"></rect>
+                <rect class="wall" x="0" y="239" width="10" height="102"></rect>
+                <rect class="wall" x="70" y="239" width="10" height="11"></rect>
+                <rect class="wall" x="70" y="265" width="10" height="76"></rect>
+                <rect class="wall" x="0" y="265" width="80" height="385"></rect>
+
+                <!-- Стены со стороны кабинетов (правая часть) -->
+                <rect class="wall" x="79" y="0" width="62" height="30"></rect>
+                <rect class="wall" x="140" y="180" width="80" height="360"></rect>
+                <rect class="wall" x="210" y="539" width="10" height="52"></rect>
+                <rect class="wall" x="140" y="539" width="10" height="19"></rect>
+                <rect class="wall" x="140" y="572" width="10" height="19"></rect>
+                <rect class="wall" x="140" y="590" width="80" height="60"></rect>
+
+                <!-- Стены верхней части -->
+                <rect class="wall" x="140" y="0" width="720" height="120"></rect>
+                <rect class="wall" x="219" y="180" width="422" height="10"></rect>
+                <rect class="wall" x="830" y="119" width="30" height="62"></rect>
+
+                <!-- Стены правой части -->
+                <rect class="wall" x="515" y="350" width="121" height="40" rx="20" ry="20" transform="rotate(-30 520 290)"></rect>
+                <rect class="wall" x="580" y="330" width="61" height="120"></rect>
+                <rect class="wall" x="580" y="449" width="10" height="192"></rect>
+                <rect class="wall" x="640" y="180" width="80" height="470"></rect>
+                <rect class="wall" x="780" y="180" width="80" height="650"></rect>
+                <rect class="wall" x="719" y="710" width="62" height="120"></rect>
+
+                <!-- Стены нижней части -->
+                <rect class="wall" x="219" y="640" width="385" height="10"></rect>
+                <rect class="wall" x="625" y="640" width="16" height="10"></rect>
+                <rect class="wall" x="579" y="710" width="141" height="10"></rect>
+                <rect class="wall" x="490" y="710" width="90" height="120"></rect>
+                <rect class="wall" x="309" y="710" width="182" height="10"></rect>
+                <rect class="wall" x="220" y="710" width="90" height="120"></rect>
+                <rect class="wall" x="59" y="710" width="162" height="10"></rect>
+                <rect class="wall" x="-30" y="710" width="90" height="120"></rect>
+                <rect class="wall" x="0" y="649" width="30" height="62"></rect>
+
+                <!-- Объекты 2-ого этажа -->
+                <rect id="toilet-female-2" class="room" x="150" y="540" width="60" height="50"></rect>
+                <text x="180" y="565" font-size="11">Туалет</text>
+
+                <rect id="room-206" class="room" x="10" y="170" width="60" height="60"></rect>
+                <text x="40" y="200" font-size="11">206</text>
+
+                <rect id="room-205" class="room" x="10" y="240" width="60" height="100"></rect>
+                <text x="40" y="290" font-size="11">205</text>
+
+                <rect id="room-226" class="room" x="590" y="380" width="50" height="260"></rect>
+                <text x="615" y="510" font-size="11">226</text>
             </g>
 
             <g id="floor-3" class="floor-layer" style="display: none;">
@@ -111,11 +180,11 @@
             </g>
 
             <g class="stairs">
-                <rect id="main-stairs" class="room" x="730" y="590" width="60" height="60">Лестница</rect>
-                <text x="760" y="620" font-size="11">Лестница</text>
-
                 <rect id="secondary-stairs" class="room" x="150" y="180" width="60" height="60"></rect>
                 <text x="180" y="210" font-size="11">Лестница</text>
+
+                <rect id="main-stairs" class="room" x="730" y="590" width="60" height="60">Лестница</rect>
+                <text x="760" y="620" font-size="11">Лестница</text>
             </g>
         </svg>
     </div>

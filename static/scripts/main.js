@@ -205,14 +205,14 @@ const MapManager = {
 
         DOMElements.schoolMap.style.cursor = 'grab';
 
-        if (Math.abs(AppState.velocityX) > 0.4 || Math.abs(AppState.velocityY) > 0.4) {
+        if (Math.abs(AppState.velocityX) > 0.3 || Math.abs(AppState.velocityY) > 0.3) {
             requestAnimationFrame(this.inertiaStep.bind(this));
         }
     },
 
     inertiaStep() {
-        AppState.velocityX *= 0.95;
-        AppState.velocityY *= 0.95;
+        AppState.velocityX *= 0.96;
+        AppState.velocityY *= 0.96;
 
         AppState.currentTransform.x += AppState.velocityX * 8;
         AppState.currentTransform.y += AppState.velocityY * 8;
@@ -451,6 +451,10 @@ const AppInitializer = {
 
                 try {
                     const objectData = await DataManager.getObjectData(identifier);
+
+                    if (DOMElements.selectedRoom) {
+                        DOMElements.selectedRoom.classList.remove('room-selected');
+                    }
 
                     DOMElements.selectedRoom = document.querySelector(`#${roomId}`);
                     DOMElements.selectedRoom.classList.add('room-selected');

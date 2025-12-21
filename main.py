@@ -55,6 +55,4 @@ async def get_object_image(identifier: int):
 if __name__ == "__main__":
     create_db_and_tables()
     setup_data.script.setup()
-    # Да не меняй ты на локалхост. Просто напиши локалхост в браузере, и заработает.
-    # А 0.0.0.0 обеспечивает хост на все интерфейсы
     uvicorn.run(app, host="0.0.0.0", port=8000)

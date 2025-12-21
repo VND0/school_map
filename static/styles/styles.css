@@ -85,6 +85,11 @@ body {
     fill: #9cbcf4;
 }
 
+#toilet-female-2,
+#toilet-female-3 {
+    fill: #e0aee8;
+}
+
 .card {
     position: absolute;
     width: 70%;
