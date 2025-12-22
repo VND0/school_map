@@ -5,6 +5,10 @@
     font-family: Verdana, sans-serif;
 }
 
+html, body {
+    overscroll-behavior-y: contain;
+}
+
 body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
@@ -248,7 +252,7 @@ body {
     transform: scaleX(-1) translateY(-50%);
     width: 24px;
     height: 24px;
-    background: url("../img/search-icon.svg") no-repeat center / contain;
+    background: url("/img/search-icon.svg") no-repeat center / contain;
     z-index: 11;
 }
 
