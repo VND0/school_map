@@ -137,7 +137,7 @@ class Card {
             const blob = new Blob([objectData.image], {type: 'application/octet-stream'});
             this.image.src = URL.createObjectURL(blob);
         } else {
-            this.image.src = 'static/img/search-icon.svg';
+            this.image.src = 'img/search-icon.svg';
         }
     }
 }
@@ -463,7 +463,7 @@ const AppInitializer = {
                     console.error('Ошибка при получении данных объекте:', error);
                     cardActions.title.textContent = 'Информация недоступна';
                     cardActions.description.innerHTML = 'К сожалению, информация об этом объекте временно недоступна.';
-                    cardActions.image.src = 'static/img/search-icon.svg';
+                    cardActions.image.src = 'img/search-icon.svg';
                     cardActions.reveal();
                 }
             });

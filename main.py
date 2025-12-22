@@ -11,17 +11,12 @@ from database.db_models import Object
 
 app = FastAPI()
 sessions = get_session()
-app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    return templates.TemplateResponse(
-        request=request, name="index.html",
-        context={"url_for_css": request.app.url_path_for('static', path='/styles/styles.css'),
-                 "url_for_js": request.app.url_path_for('static', path='/scripts/main.js')}
-    )
+    return templates.TemplateResponse(request=request, name="index.html")
 
 
 @app.get("/object-data")
@@ -51,6 +46,9 @@ async def get_object_image(identifier: int):
         media_type="application/octet-stream",
     )
 
+
+# After all routes
+app.mount("/", StaticFiles(directory="static"), name="static")
 
 if __name__ == "__main__":
     create_db_and_tables()
