@@ -448,16 +448,15 @@ const AppInitializer = {
                     default: identifier = -1; break;
                 }
 
+                if (DOMElements.selectedRoom) {
+                    DOMElements.selectedRoom.classList.remove('room-selected');
+                }
+
+                DOMElements.selectedRoom = document.querySelector(`#${roomId}`);
+                DOMElements.selectedRoom.classList.add('room-selected');
+
                 try {
                     const objectData = await DataManager.getObjectData(identifier);
-
-                    if (DOMElements.selectedRoom) {
-                        DOMElements.selectedRoom.classList.remove('room-selected');
-                    }
-
-                    DOMElements.selectedRoom = document.querySelector(`#${roomId}`);
-                    DOMElements.selectedRoom.classList.add('room-selected');
-
                     cardActions.fillObjectData(objectData);
                     cardActions.reveal();
                 } catch (error) {
