@@ -111,13 +111,17 @@ body {
 }
 
 .slider {
+    touch-action: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.slider-content {
     background-color: #d1d5db;
     height: 6px;
     width: 40px;
     margin: 8px auto;
     border-radius: 3px;
-    touch-action: none;
-    cursor: pointer;
 }
 
 .card-header {
@@ -160,6 +164,7 @@ body {
     border-radius: 8px;
     border: 1px solid #e5e7eb;
     cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .card > .img-wrap > img {
@@ -339,8 +344,8 @@ body {
     margin: 0 auto 0 auto;
     text-align: center;
     width: 350px;
-
 }
+
 #qr-reader {
     width: 350px;
     height: 350px;
