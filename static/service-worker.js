@@ -7,7 +7,8 @@ const CACHED_URLS = [
     '/manifest.json',
     '/service-worker.js',
     '/scripts/html5-qrcode.min.js',
-    '/img/icon-192.webp'
+    '/img/icon-192.webp',
+    '/img/search-icon.svg'
 ];
 
 self.addEventListener('install', event => {

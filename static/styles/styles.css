@@ -263,8 +263,8 @@ body {
 
 .zoom-controls {
     position: absolute;
-    right: 20px;
-    bottom: 100px;
+    right: 13px;
+    top: 140px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -422,6 +422,10 @@ body {
         bottom: 90px;
         right: 15px;
     }
+
+    #cache-button {
+        right: 10px !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -460,6 +464,10 @@ body {
         height: 40px;
         font-size: 18px;
     }
+
+    #cache-button {
+        right: 10px !important;
+    }
 }
 
 .object-picture {
@@ -485,4 +493,19 @@ body {
     max-height: 100%;
     object-fit: contain;
     margin-bottom: 30px;
+}
+
+#cache-button {
+    position: absolute;
+    right: 15px;
+    top: 280px;
+    height: 40px;
+    aspect-ratio: 1/1;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    padding: 5px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    z-index: 15;
 }

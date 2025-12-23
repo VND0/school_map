@@ -647,3 +647,32 @@ class ImagePreview {
 
 const lsCaching = new LocalStorageCaching()
 const qrReader = new QrReader()
+
+document.querySelector("#cache-button").addEventListener("click", async (evt) => {
+    const button = evt.currentTarget
+    const promptSvg = button.querySelector(".prompt")
+    const successSvg = button.querySelector(".success")
+    const loadingImg = button.querySelector(".loading")
+
+    promptSvg.style.display = "none"
+    loadingImg.style.removeProperty("display")
+
+    try {
+        for (const id of Object.values(objectIdentifiers)) {
+            await DataManager.getObjectData(id)
+        }
+    } catch (err) {
+        promptSvg.style.removeProperty("display")
+        loadingImg.style.display = "none"
+        alert(err)
+        return
+    }
+
+    loadingImg.style.display = "none"
+    successSvg.style.removeProperty("display")
+
+    setTimeout(() => {
+        promptSvg.style.removeProperty("display")
+        successSvg.style.display = "none"
+    }, 3000)
+})
