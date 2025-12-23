@@ -1,3 +1,23 @@
+const objectIdentifiers = {
+    'canteen': 1,
+    'sofas': 2,
+    'entrance': 3,
+    'main-stairs': 4,
+    'secondary-stairs': 5,
+    'toilet-male-1': 6,
+    'toilet-female-2': 7,
+    'toilet-female-3': 8,
+    'toilet-male-3': 9,
+    'wardrobe': 10,
+    'room-226': 11,
+    'room-205': 12,
+    'room-206': 13,
+    'room-308': 14,
+    'room-311': 15,
+    'room-320': 16,
+    'room-336': 17
+};
+
 const AppState = {
     isPanning: false,
     showingCard: false,
@@ -343,14 +363,13 @@ const SearchManager = {
                     if (roomText.includes(searchTerm)) {
                         room.style.fill = '#ffff99';
 
-                        const floorId = room.parentNode.id;
-                        let floorBtn;
-
-                        switch (floorId) {
-                            case 'floor-1': floorBtn = DOMElements.floorButtons[2]; break;
-                            case 'floor-2': floorBtn = DOMElements.floorButtons[1]; break;
-                            case 'floor-3': floorBtn = DOMElements.floorButtons[0]; break;
+                        const floorIdentifiers = {
+                            'floor-1': DOMElements.floorButtons[2],
+                            'floor-2': DOMElements.floorButtons[1],
+                            'floor-3': DOMElements.floorButtons[0]
                         }
+                        const floorId = room.parentNode.id;
+                        const floorBtn = floorIdentifiers[floorId];
                         if (floorBtn) {
                             floorBtn.nextElementSibling.style.backgroundColor = '#ffff99';
                         }
@@ -425,28 +444,7 @@ const AppInitializer = {
         document.querySelectorAll('.room').forEach(room => {
             room.addEventListener('click', async function () {
                 const roomId = this.getAttribute('id');
-
-                let identifier;
-                switch(roomId) {
-                    case 'canteen': identifier = 1; break;
-                    case 'sofas': identifier = 2; break;
-                    case 'entrance': identifier = 3; break;
-                    case 'main-stairs': identifier = 4; break;
-                    case 'secondary-stairs': identifier = 5; break;
-                    case 'toilet-male-1': identifier = 6; break;
-                    case 'toilet-female-2': identifier = 7; break;
-                    case 'toilet-female-3': identifier = 8; break;
-                    case 'toilet-male-3': identifier = 9; break;
-                    case 'wardrobe': identifier = 10; break;
-                    case 'room-226': identifier = 11; break;
-                    case 'room-205': identifier = 12; break;
-                    case 'room-206': identifier = 13; break;
-                    case 'room-308': identifier = 14; break;
-                    case 'room-311': identifier = 15; break;
-                    case 'room-320': identifier = 16; break;
-                    case 'room-336': identifier = 17; break;
-                    default: identifier = -1; break;
-                }
+                const identifier = objectIdentifiers[roomId] ?? -1
 
                 if (DOMElements.selectedRoom) {
                     DOMElements.selectedRoom.classList.remove('room-selected');
