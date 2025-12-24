@@ -1,6 +1,6 @@
 {
-  "name": "School Map",
-  "short_name": "Map for Khimbil",
+  "name": "Navispace",
+  "short_name": "Navispace",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
